@@ -8,7 +8,7 @@ include( "MapTacks" );
 local m_playerMapPins	:table = {};
 local m_MapPinListButtonToPinEntry :table = {}; -- map pin entries keyed to their MapPinListButton object string names.  This is currently just used for sorting, please becareful if you use it for anything else as it is cleared after use.
 
-local PlayerMapPinListTTStr :string = Locale.Lookup( "LOC_MAP_PIN_LIST_REMOTE_PIN_TOOLTIP" );
+local PlayerMapPinListTTStr :string = Locale.Lookup( "LOC_MAP_PIN_LIST_PLAYER_PIN_TOOLTIP" );
 local RemoteMapPinListTTStr :string = Locale.Lookup( "LOC_MAP_PIN_LIST_REMOTE_PIN_TOOLTIP" );
 
 ------------------------------------------------- 
@@ -110,6 +110,7 @@ function GetMapPinListEntry(iPlayerID :number, mapPinID :number)
 			mapPinEntry.EditMapPin:SetHide(false);
 			mapPinEntry.EditMapPin:SetVoids(iPlayerID, mapPinID);
 			mapPinEntry.EditMapPin:RegisterCallback(Mouse.eLClick, OnMapPinEntryEdit);
+      mapPinEntry.MapPinListButton:RegisterCallback(Mouse.eRClick, OnMapPinEntryDelete);
 		else
 			mapPinEntry.EditMapPin:SetHide(true);
 		end
@@ -182,6 +183,13 @@ function OnMapPinEntryLeftClick(iPlayerID :number, mapPinID :number)
 		-- Would love to find a fun effect to play on the map pin when you look at it so that you don't lose it.
 		--	UI.OnNaturalWonderRevealed(hexX, hexY);
 	end
+  return true;
+end
+
+function OnMapPinEntryDelete(iPlayerID :number, mapPinID :number)
+  if(iPlayerID == Game.GetLocalPlayer()) then
+    LuaEvents.MapPinPopup_RequestDeleteMapPin(mapPinID);
+  end
 end
 
 function OnMapPinEntryEdit(iPlayerID :number, mapPinID :number)
@@ -245,7 +253,7 @@ ContextPtr:SetShowHideHandler( ShowHideHandler );
 -- ===========================================================================
 function Initialize()
 	Controls.AddPinButton:RegisterCallback( Mouse.eLClick, OnAddPinButton );
-    Controls.AddPinButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
+  Controls.AddPinButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	Events.PlayerInfoChanged.Add(OnPlayerInfoChanged);
 	Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
 	Events.LocalPlayerChanged.Add( OnLocalPlayerChanged );

@@ -2,6 +2,8 @@
 -- MapTacks
 -- utility functions
 
+include ("ModSettings")
+
 local g_enableWonders = false;
 
 local g_debugLeader = nil;
@@ -32,79 +34,61 @@ local g_debugLeader = nil;
 -- g_debugLeader = GameInfo.Leaders.LEADER_JADWIGA
 
 -- ===========================================================================
-local g_stockIcons = {
-	{ name="ICON_MAP_PIN_STRENGTH" },
-	{ name="ICON_MAP_PIN_RANGED"   },
-	{ name="ICON_MAP_PIN_BOMBARD"  },
-	{ name="ICON_MAP_PIN_DISTRICT" },
-	{ name="ICON_MAP_PIN_CHARGES"  },
-	{ name="ICON_MAP_PIN_DEFENSE"  },
-	{ name="ICON_MAP_PIN_MOVEMENT" },
-	{ name="ICON_MAP_PIN_NO"       },
-	{ name="ICON_MAP_PIN_PLUS"     },
-	{ name="ICON_MAP_PIN_CIRCLE"   },
-	{ name="ICON_MAP_PIN_TRIANGLE" },
-	{ name="ICON_MAP_PIN_SUN"      },
-	{ name="ICON_MAP_PIN_SQUARE"   },
-	{ name="ICON_MAP_PIN_DIAMOND"  },
-};
-local g_buildOps = {
-	GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST,
-	GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE,
-	GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE,
-};
-local g_miscIcons = {
-	GameInfo.UnitOperations.UNITOPERATION_BUILD_ROUTE,
-	GameInfo.UnitOperations.UNITOPERATION_CLEAR_CONTAMINATION,
-	GameInfo.UnitOperations.UNITOPERATION_REPAIR,
-	GameInfo.UnitOperations.UNITOPERATION_DESIGNATE_PARK,
-	GameInfo.UnitOperations.UNITOPERATION_EXCAVATE,
-	GameInfo.UnitOperations.UNITOPERATION_MAKE_TRADE_ROUTE,
-	{
-		Icon="ICON_UNITOPERATION_SPY_COUNTERSPY_ACTION",
-		-- Description="LOC_UNIT_SPY_NAME",
-		Description="LOC_PROMOTION_CLASS_SPY_NAME",
-	},
-	{
-		Icon="ICON_NOTIFICATION_BARBARIANS_SIGHTED",
-		Description="LOC_IMPROVEMENT_BARBARIAN_CAMP_NAME",
-	},
-	{
-		Icon="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
-		Description="LOC_IMPROVEMENT_GOODY_HUT_NAME",
-	},
-	-- GameInfo.Notifications.NOTIFICATION_CITY_RANGE_ATTACK,
-	-- GameInfo.Notifications.NOTIFICATION_BARBARIANS_SIGHTED,
-	-- GameInfo.Notifications.NOTIFICATION_DISCOVER_GOODY_HUT,
-	GameInfo.UnitOperations.UNITOPERATION_PILLAGE,
-	GameInfo.UnitOperations.UNITOPERATION_WMD_STRIKE,
-	-- GameInfo.UnitCommands.UNITCOMMAND_PLUNDER_TRADE_ROUTE,
-	GameInfo.UnitCommands.UNITCOMMAND_FORM_ARMY,
-	GameInfo.UnitCommands.UNITCOMMAND_ACTIVATE_GREAT_PERSON,
-};
-
--- ===========================================================================
 -- Build the grid of map pin icon options
-function MapTacksIconOptions(stockIcons : table)
-	local icons = {};
+
+function GetLocalPlayerTraits()
 	local activePlayerID = Game.GetLocalPlayer();
 	local pPlayerCfg = PlayerConfigurations[activePlayerID];
-
-	local leader = GameInfo.Leaders[pPlayerCfg:GetLeaderTypeID()];
-	if g_debugLeader then leader = g_debugLeader; end
-	local civ = leader.CivilizationCollection[1];
-	-- print(civ.CivilizationType);
-
-	-- Get unique traits for the player civilization
+  local leader = GameInfo.Leaders[pPlayerCfg:GetLeaderTypeID()];
+  if g_debugLeader then leader = g_debugLeader; end
+  local civ = leader.CivilizationCollection[1];
+  	
+  -- Get unique traits for the player civilization
 	local traits = {};
-	for i, item in ipairs(leader.TraitCollection) do
-		traits[item.TraitType] = true;
-		-- print(item.TraitType);
-	end
-	for i, item in ipairs(civ.TraitCollection) do
-		traits[item.TraitType] = true;
-		-- print(item.TraitType);
-	end
+  AddTraits(traits, leader.TraitCollection);
+  AddTraits(traits, civ.TraitCollection);
+  return traits;
+end
+
+function AddTraits(traits, collection) 
+  for i, item in ipairs(collection) do
+    traits[item.TraitType] = true;
+  end
+end
+
+function GetStockIcons() 
+  return {
+	  { name="ICON_MAP_PIN_STRENGTH" },
+	  { name="ICON_MAP_PIN_RANGED"   },
+	  { name="ICON_MAP_PIN_BOMBARD"  },
+	  { name="ICON_MAP_PIN_DISTRICT" },
+	  { name="ICON_MAP_PIN_CHARGES"  },
+	  { name="ICON_MAP_PIN_DEFENSE"  },
+	  { name="ICON_MAP_PIN_MOVEMENT" },
+	  { name="ICON_MAP_PIN_NO"       },
+	  { name="ICON_MAP_PIN_PLUS"     },
+	  { name="ICON_MAP_PIN_CIRCLE"   },
+	  { name="ICON_MAP_PIN_TRIANGLE" },
+	  { name="ICON_MAP_PIN_SUN"      },
+	  { name="ICON_MAP_PIN_SQUARE"   },
+	  { name="ICON_MAP_PIN_DIAMOND"  },
+  };
+end
+
+function IconInfoForDistrict(district)
+  local tooltip = "";
+  if district.CityCenter or district.InternalOnly then
+    tooltip = district.Name
+  else 
+    tooltip = district.DistrictType;
+  end
+  return { name = "ICON_" .. district.DistrictType, tooltip = tooltip };
+end
+
+function GetDistrictIcons() 
+  local icons = {};
+  local traits = GetLocalPlayerTraits();
+
 	-- Get unique district replacement info
 	local districts = {};
 	for item in GameInfo.Districts() do
@@ -112,55 +96,113 @@ function MapTacksIconOptions(stockIcons : table)
 			for i, swap in ipairs(item.ReplacesCollection) do
 				local base = swap.ReplacesDistrictType;
 				districts[base] = item;
-				-- print(item.DistrictType, "replaces", base);
 			end
 		end
 	end
-
-	-- Standard map pins
-	for i, item in ipairs(stockIcons or g_stockIcons) do
-		table.insert(icons, item);
-	end
-
-	-- Districts
-	table.insert(icons, MapTacksIcon(GameInfo.Districts.DISTRICT_WONDER));
+  table.insert(icons, IconInfoForDistrict(GameInfo.Districts.DISTRICT_WONDER));
 	for item in GameInfo.Districts() do
 		local itype = item.DistrictType;
 		if districts[itype] then
 			-- unique district replacements for this civ
-			table.insert(icons, MapTacksIcon(districts[itype]));
+			table.insert(icons, IconInfoForDistrict(districts[itype]));
 		elseif item.TraitType then
 			-- skip other unique districts
 		elseif itype ~= "DISTRICT_WONDER" then
-			table.insert(icons, MapTacksIcon(item));
+			table.insert(icons, IconInfoForDistrict(item));
 		end
 	end
+  return icons;
+end
 
-	-- Improvements
-	local builderIcons = {};
+local uniqueImprovementsSettingValues = {"LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_SELF_ONLY",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MET_MINOR_CIVS_IN_GAME",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MINOR_CIVS_IN_GAME",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL_MINOR_CIVS",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MET_CIVS_IN_GAME",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL_CIVS_IN_GAME",
+                                         "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL"};
+uniqueImprovementSetting = ModSettings.Select:new(uniqueImprovementsSettingValues, 2, 
+  "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY",
+  "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING", "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING_TOOLTIP",
+  function () LuaEvents.MapTacks_UpdateAvailableIcons() end);
+
+function GetImprovementTraitsFunc()
+  if uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[7] then
+    -- All
+    return function() return true end;
+  elseif uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[4] then
+    -- All minor civs
+    local traits = GetLocalPlayerTraits();
+    return function(trait) return trait:sub(1,10) == "MINOR_CIV_" or traits[trait] end;
+  else 
+    local traits = GetLocalPlayerTraits();
+    traits["TRAIT_CIVILIZATION_NO_PLAYER"] = true; -- Governor improvements always available
+    local players = PlayerManager.GetWasEverAlive(); 
+    local localPlayerID = Game.GetLocalPlayer();
+
+    if localPlayerId ~= -1 then
+      local diplomacy = Players[localPlayerID]:GetDiplomacy();
+      for _, player in ipairs(players) do
+        if not player:IsBarbarian() then
+          local hasMet = diplomacy:HasMet(player:GetID());
+          local playerCfg = PlayerConfigurations[player:GetID()];
+          local leader = GameInfo.Leaders[playerCfg:GetLeaderTypeID()];
+          local civ = leader.CivilizationCollection[1];
+
+          if player:IsMajor() then
+            if (hasMet and uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[5]) or
+               (uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[6]) then
+              AddTraits(traits, leader.TraitCollection);
+              AddTraits(traits, civ.TraitCollection);
+            end
+          else
+            if (hasMet and (uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[5]
+                            or uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[2])) or
+               (uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[3]) or 
+               (uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[6]) then
+              AddTraits(traits, leader.TraitCollection);
+              AddTraits(traits, civ.TraitCollection);
+            end
+          end
+        end
+      end
+    end
+
+    return function(trait) return traits[trait] end;
+  end
+end
+
+function MakeUnitOperationIcon(item) 
+  return { name = item.Icon, tooltip = item.Description };
+end
+
+function GetImprovementIcons()
+  local traitFunc = GetImprovementTraitsFunc();
+
+  local builderIcons = {};
 	local uniqueIcons = {};
 	local governorIcons = {};
 	local minorCivIcons = {};
 	local engineerIcons = {};
+
 	for item in GameInfo.Improvements() do
 		-- does this improvement have a valid build unit?
 		local units = item.ValidBuildUnits;
 		if #units ~= 0 then
-			local entry = MapTacksIcon(item);
+			local entry = { name = item.Icon, tooltip = item.ImprovementType };
 			local unit = GameInfo.Units[units[1].UnitType];
 			local trait = item.TraitType or unit.TraitType;
-			-- print(valid.UnitType, trait);
 			if trait then
-				-- print(trait);
-				if traits[trait] then
-					-- separate unique improvements
-					table.insert(uniqueIcons, entry);
-				elseif trait == "TRAIT_CIVILIZATION_NO_PLAYER" then
-					-- governor improvements
-					table.insert(governorIcons, entry);
-				elseif trait:sub(1, 10) == "MINOR_CIV_" then
-					table.insert(minorCivIcons, entry);
-				end
+        if traitFunc(trait) then
+				  if trait == "TRAIT_CIVILIZATION_NO_PLAYER" then
+					  -- governor improvements
+					  table.insert(governorIcons, entry);
+				  elseif trait:sub(1, 10) == "MINOR_CIV_" then
+					  table.insert(minorCivIcons, entry);
+          else 
+            table.insert(uniqueIcons, entry);
+				  end
+        end
 			elseif unit.UnitType == "UNIT_BUILDER" then
 				table.insert(builderIcons, entry);
 			else
@@ -168,69 +210,186 @@ function MapTacksIconOptions(stockIcons : table)
 			end
 		end
 	end
-	if #uniqueIcons == 0 then
-		-- if no unique improvement, use a generic icon
-		table.insert(uniqueIcons, MapTacksIcon(
-			GameInfo.UnitOperations.UNITOPERATION_BUILD_IMPROVEMENT))
-	end
 
-	for i,v in ipairs(uniqueIcons) do table.insert(icons, v); end
-	for i,v in ipairs(builderIcons) do table.insert(icons, v); end
-	for i,v in ipairs(g_buildOps) do table.insert(icons, MapTacksIcon(v)); end
-	for i,v in ipairs(governorIcons) do table.insert(icons, v); end
-	for i,v in ipairs(minorCivIcons) do table.insert(icons, v); end
-	for i,v in ipairs(engineerIcons) do table.insert(icons, v); end
-	for i,v in ipairs(g_miscIcons) do table.insert(icons, MapTacksIcon(v)); end
-
-	-- Great people
-	for item in GameInfo.GreatPersonClasses() do
-		table.insert(icons, MapTacksIcon(item));
-	end
-
-	-- Wonders
-	if g_enableWonders then
-		for item in GameInfo.Buildings() do
-			if item.IsWonder then
-				table.insert(icons, MapTacksIcon(item));
-			end
-		end
-	end
-
-	return icons;
+  local icons = {};
+  for _, v in ipairs(uniqueIcons) do table.insert(icons, v); end
+  for _, v in ipairs(builderIcons) do table.insert(icons, v); end
+  for _, v in ipairs(minorCivIcons) do table.insert(icons, v); end
+  for _, v in ipairs(engineerIcons) do table.insert(icons, v); end
+  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST));
+	table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE));
+	table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE));
+  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_IMPROVEMENT));
+  return icons;
 end
 
--- ===========================================================================
--- Given a GameInfo object, determine its icon and tooltip
-function MapTacksIcon(item)
-	local name :string = nil;
-	local tooltip :string = nil;
-	if item.GreatPersonClassType then  -- note, districts also have this field
-		name = item.ActionIcon;
-		tooltip = item.Name;
-	elseif item.BuildingType then
-		name = "ICON_"..item.BuildingType;
-		tooltip = item.BuildingType;
-	elseif item.DistrictType then
-		name = "ICON_"..item.DistrictType;
-		if item.CityCenter or item.InternalOnly then
-			tooltip = item.Name
-		else
-			tooltip = item.DistrictType;
-		end
-	elseif item.ImprovementType then
-		name = item.Icon;
-		tooltip = item.ImprovementType;
-	elseif item.NotificationType then
-		name = "ICON_"..item.NotificationType;
-		tooltip = item.Message;
-	elseif item.UnitType then
-		name = "ICON_"..item.UnitType;
-		tooltip = item.Name;
-	else
-		name = item.Icon;
-		tooltip = item.Description;
+function GetDomesticActionIcons()
+  return {
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_FOUND_CITY),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_FOUND_RELIGION),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_ROUTE),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_CLEAR_CONTAMINATION),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REPAIR),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_DESIGNATE_PARK),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_EXCAVATE),
+	  {
+		  name="ICON_UNITOPERATION_SPY_COUNTERSPY_ACTION",
+		  -- Description="LOC_UNIT_SPY_NAME",
+		  tooltip="LOC_UNITOPERATION_SPY_COUNTERSPY_DESCRIPTION",
+	  },
+	  
+	  --[[{
+		  name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
+		  tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
+	  },
+    --]]
+	  -- GameInfo.Notifications.NOTIFICATION_CITY_RANGE_ATTACK,
+	  -- GameInfo.Notifications.NOTIFICATION_BARBARIANS_SIGHTED,
+	  -- GameInfo.Notifications.NOTIFICATION_DISCOVER_GOODY_HUT,
+	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_ACTIVATE_GREAT_PERSON),
+  };
+end
+
+function GetInternationalActionIcons() 
+  return {
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_MAKE_TRADE_ROUTE),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPREAD_RELIGION),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_TRAVEL_NEW_CITY),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_DISRUPT_ROCKETRY),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_GAIN_SOURCES),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_GREAT_WORK_HEIST),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_LISTENING_POST),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_RECRUIT_PARTISANS),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SABOTAGE_PRODUCTION),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SIPHON_FUNDS),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_STEAL_TECH_BOOST),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR),
+    --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_GIFT),
+  };
+end
+
+function GetMilitaryActionIcons() 
+  return {
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_FORTIFY),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HEAL),
+    MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_AIRLIFT),
+  	MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PILLAGE),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_AIR_ATTACK),
+	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_WMD_STRIKE),
+	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_PLUNDER_TRADE_ROUTE),
+    --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_FORM_CORPS),
+	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_FORM_ARMY),
+    {
+		  name="ICON_UNITCOMMAND_DELETE",
+		  tooltip="LOC_DELETE_BUTTON",
+	  },
+    --[[ {
+		  name="ICON_NOTIFICATION_BARBARIANS_SIGHTED",
+		  tooltip="LOC_IMPROVEMENT_BARBARIAN_CAMP_NAME",
+	  },
+    --]]
+  };
+end
+
+function GetGreatPeopleIcons() 
+  local icons = {};
+	for item in GameInfo.GreatPersonClasses() do
+		table.insert(icons, { name = item.ActionIcon, tooltip = item.Name });
 	end
-	return { name=name, tooltip=tooltip };
+  return icons;
+end
+
+function GetGovernorIcons() 
+  local icons = {};
+  for item in GameInfo.Governors() do
+    -- There are three icons for each governor.  
+    -- <no suffix> has a dark grey background
+    -- "_FILL" has a white background
+    -- "_SLOT" has a transparent background (would be best to use this, but it is also darkened to a 
+    -- point where it's very hard to see the actual governor).
+    table.insert(icons, { name = "ICON_" .. item.GovernorType .. "_FILL", tooltip = item.Description });
+  end
+  return icons;
+end
+
+function GetYieldIcons()
+  return {
+    { name = "ICON_YIELD_FOOD_5", description = "LOC_YIELD_FOOD_NAME" },
+    { name = "ICON_YIELD_PRODUCTION_5", description = "LOC_YIELD_PRODUCTION_NAME" },
+    { name = "ICON_YIELD_GOLD_5", description = "LOC_YIELD_GOLD_NAME" },
+    { name = "ICON_YIELD_SCIENCE_5", description = "LOC_YIELD_SCIENCE_NAME" },
+    { name = "ICON_YIELD_CULTURE_5", description = "LOC_YIELD_CULTURE_NAME" },
+    { name = "ICON_YIELD_FAITH_5", description = "LOC_YIELD_FAITH_NAME" },
+  };
+end
+
+local uniqueUnitsSettingValues = {"LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_SELF_ONLY",
+                                  "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_MET_CIVS_IN_GAME",
+                                  "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL_CIVS_IN_GAME",
+                                  "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL"};
+uniqueUnitsSetting = ModSettings.Select:new(uniqueUnitsSettingValues, 1,
+  "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY",
+  "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING", "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING_TOOLTIP",
+  LuaEvents.MapTacks_UpdateAvailableIcons);
+
+function GetUnitTraitsFunc()
+  if uniqueUnitsSetting.Value == uniqueUnitsSettingValues[4] then
+    -- All
+    return function() return true end;
+  else 
+    local traits = GetLocalPlayerTraits();
+    local players = PlayerManager.GetWasEverAlive(); 
+    local localPlayerID = Game.GetLocalPlayer();
+
+    if localPlayerId ~= -1 then
+      local diplomacy = Players[localPlayerID]:GetDiplomacy();
+      for _, player in ipairs(players) do
+        if not player:IsBarbarian() then
+          local hasMet = diplomacy:HasMet(player:GetID());
+          local playerCfg = PlayerConfigurations[player:GetID()];
+          local leader = GameInfo.Leaders[playerCfg:GetLeaderTypeID()];
+          local civ = leader.CivilizationCollection[1];
+          if (hasMet and uniqueUnitsSetting.Value == uniqueUnitsSettingValues[2]) or
+              (uniqueUnitsSetting.Value == uniqueUnitsSettingValues[3]) then
+            AddTraits(traits, leader.TraitCollection);
+            AddTraits(traits, civ.TraitCollection);
+          end
+        end
+      end
+    end
+
+    return function(trait) return traits[trait] end;
+  end
+end
+
+function GetUnitIcons()
+  local icons = {};
+  local traitFunc = GetUnitTraitsFunc();
+
+  for item in GameInfo.Units() do
+    -- Skip great people since they're in their own container.
+    if item.CanTrain then
+      local trait = item.TraitType;
+			if not trait or traitFunc(trait) then
+        table.insert(icons, { name = "ICON_"..item.UnitType, tooltip = item.Name });
+      end
+    end
+  end
+
+  return icons;
+end
+
+function GetWonderIcons() 
+  local icons = {};
+
+  for item in GameInfo.Buildings() do
+		if item.IsWonder then
+			table.insert(icons, { name = "ICON_" .. item.BuildingType, tooltip = item.BuildingType });
+		end
+	end
+  return icons;
 end
 
 -- ===========================================================================
@@ -252,7 +411,11 @@ function MapTacksType(pin : table)
 		return MAPTACKS_COLOR;
 	elseif iconType == "BUILD" then  -- wonders
 		return MAPTACKS_COLOR;
-	else
+  elseif iconType == "GOVER" then -- governors
+    return MAPTACKS_COLOR;
+	elseif iconType == "YIELD" then 
+    return MAPTACKS_COLOR;
+  else
 		return MAPTACKS_GRAY;
 	end
 end

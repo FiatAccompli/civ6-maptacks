@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
+    <Name>LOC_MAP_TACKS_MOD_NAME</Name>
+    <Guid>d3977be1-c226-4216-a2b8-94121a2894b6</Guid>
+    <ProjectGuid>a9baa681-1b67-473d-9659-2f33cec182fe</ProjectGuid>
+    <ModVersion>1</ModVersion>
+    <Teaser>LOC_MAP_TACKS_DESCRIPTION</Teaser>
+    <Description>LOC_MAP_TACKS_DESCRIPTION</Description>
+    <Authors>FiatAccompli</Authors>
+    <SpecialThanks>
+    </SpecialThanks>
+    <AffectsSavedGames>false</AffectsSavedGames>
+    <SupportsSinglePlayer>true</SupportsSinglePlayer>
+    <SupportsMultiplayer>true</SupportsMultiplayer>
+    <SupportsHotSeat>true</SupportsHotSeat>
+    <AssemblyName>MapTacksPlus</AssemblyName>
+    <RootNamespace>MapTacksPlus</RootNamespace>
+    <InGameActionData><![CDATA[<InGameActions><ImportFiles id="MapTacksUI"><File>mappinlistpanel.lua</File><File>mappinlistpanel.xml</File><File>mappinmanager.lua</File><File>mappinmanager.xml</File><File>mappinpopup.lua</File><File>maptacks.lua</File><File>mappinpopup.xml</File></ImportFiles><UpdateText id="MapTacksText"><File>maptacks-text.xml</File></UpdateText><UpdateIcons id="MapTacksIcons"><File>maptacks_yield_icons.xml</File></UpdateIcons></InGameActions>]]></InGameActionData>
+    <ModProperties>
+      <CustomProperties />
+    </ModProperties>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Default' ">
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="maptacks_yield_icons.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinlistpanel.lua">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinlistpanel.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinmanager.lua">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinmanager.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinpopup.lua">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="mappinpopup.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="maptacks-text.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="maptacks.lua">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="modinfo_fixer.xml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildLocalExtensionPath)Civ6.targets" />
+</Project>

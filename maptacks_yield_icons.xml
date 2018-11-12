@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Apparently culture and faith icons are not defined in the game although they exist in the art. -->
+<GameInfo>
+  <IconTextureAtlases>
+    <Row Name="ICON_ATLAS_YIELDS_2" IconSize="64" IconsPerRow="6" IconsPerColumn="7" Filename="YieldAtlas.dds"/>
+  </IconTextureAtlases>
+  <IconDefinitions>
+    <Row Name="ICON_YIELD_CULTURE_5"                 Atlas="ICON_ATLAS_YIELDS_2" Index="28"/>
+    <Row Name="ICON_YIELD_FAITH_5"                   Atlas="ICON_ATLAS_YIELDS_2" Index="29"/>
+  </IconDefinitions>
+</GameInfo>
+

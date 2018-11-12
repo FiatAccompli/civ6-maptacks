@@ -26,10 +26,111 @@
       <Text>Unnamed Location {1_number}</Text>
     </Replace>
     <Replace Tag="LOC_MAP_PIN_LIST_PLAYER_PIN_TOOLTIP" Language="en_US">
-      <Text>Left click to find the tack on the map.  Right click to edit.</Text>
+      <Text>Left click to find the tack on the map.  Right click to delete.</Text>
     </Replace>
     <Replace Tag="LOC_MAP_PIN_LIST_REMOTE_PIN_TOOLTIP" Language="en_US">
       <Text>Left click to find the tack on the map.</Text>
     </Replace>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_BASICS_CATEGORY">
+      <Text>Basic</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY">
+      <Text>Domestic Actions</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY">
+      <Text>International Actions</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY">
+      <Text>Military Actions</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_GOVERNORS_CATEGORY">
+      <Text>Governors</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY">
+      <Text>Map Tacks</Text>
+    </Row>
+    
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING">
+      <Text>Show basic icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_DISTRICT_ICONS_SETTING">
+      <Text>Show district icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING">
+      <Text>Show improvement icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING">
+      <Text>Show domestic action icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_INTERNATIONAL_ACTION_ICONS_SETTING">
+      <Text>Show international action icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_MILITARY_ACTION_ICONS_SETTING">
+      <Text>Show military action icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_GOVERNOR_ICONS_SETTING">
+      <Text>Show governor icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_GREAT_PEOPLE_ICONS_SETTING">
+      <Text>Show great people icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_YIELD_ICONS_SETTING">
+      <Text>Show yield icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_UNIT_ICONS_SETTING">
+      <Text>Show unit icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_WONDER_ICONS_SETTING">
+      <Text>Show wonder icons</Text>
+    </Row>
+
+    <Row Language="en_US" Tag="LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING">
+      <Text>Unique improvement icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING_TOOLTIP">
+      <Text>Determines for which civs/leaders the unique improvements icons for those civs/leaders are available as map tack icons.</Text>
+    </Row>
+
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_SELF_ONLY">
+      <Text>Self</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MET_MINOR_CIVS_IN_GAME">
+      <Text>Self and met minor civs</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MINOR_CIVS_IN_GAME">
+      <Text>Self and minor civs in game</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL_MINOR_CIVS">
+      <Text>Self and all minor civs</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MET_CIVS_IN_GAME">
+      <Text>Self and met civs</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL_CIVS_IN_GAME">
+      <Text>Self and all civs in game</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL">
+      <Text>All</Text>
+    </Row>
+
+    <Row Language="en_US" Tag="LOC_MOD_TACKS_UNIQUE_UNITS_SETTING">
+      <Text>Unique unit icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MOD_TACKS_UNIQUE_UNITS_SETTING_TOOLTIP">
+      <Text>Determines for which civs/leaders the unique unit icons for those civs/leaders are available as map tack icons.</Text>
+    </Row>
+
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_SELF_ONLY">
+      <Text>Self</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_MET_CIVS_IN_GAME">
+      <Text>Self and met civs</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL_CIVS_IN_GAME">
+      <Text>Self and all civs in game</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL">
+      <Text>All</Text>
+    </Row> 
   </LocalizedText>
 </GameData>

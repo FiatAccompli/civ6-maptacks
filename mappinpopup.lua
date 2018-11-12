@@ -6,7 +6,7 @@
 include( "PlayerTargetLogic" );
 include( "ToolTipHelper" );
 include( "MapTacks" );
-
+include( "ModSettings" );
 
 ----------------------------------------------------------------  
 -- Globals
@@ -15,7 +15,7 @@ local COLOR_YELLOW				:number = 0xFF2DFFF8;
 local COLOR_WHITE				:number = 0xFFFFFFFF;
  
 local NO_EDIT_PIN_ID :number = -1;
-local g_editPinID :number = NO_EDIT_PIN_ID;
+local g_editPinID :number = NO_EDIT_PIN_ID; 
 local g_uniqueIconsPlayer :number = nil;  -- tailor UAs to the player
 local g_iconOptionEntries = {};
 local g_visibilityTargetEntries = {};
@@ -26,29 +26,42 @@ local g_desiredIconName :string = "";
 local g_playerTarget = { targetType = ChatTargetTypes.CHATTARGET_PLAYER, targetID = Game.GetLocalPlayer() };
 local g_cachedChatPanelTarget = nil; -- Cached player target for ingame chat panel
 
--- When we aren't quite so crunched on time, it would be good to add the map pins table to the database
-local g_iconPulldownOptions = {};
-local g_stockIcons =
-{	
--- stock icons
-	{ name = "ICON_MAP_PIN_STRENGTH" },
-	{ name = "ICON_MAP_PIN_RANGED"   },
-	{ name = "ICON_MAP_PIN_BOMBARD"  },
-	{ name = "ICON_MAP_PIN_DISTRICT" },
-	{ name = "ICON_MAP_PIN_CHARGES"  },
-	{ name = "ICON_MAP_PIN_DEFENSE"  },
-	{ name = "ICON_MAP_PIN_MOVEMENT" },
-	{ name = "ICON_MAP_PIN_NO"       },
-	{ name = "ICON_MAP_PIN_PLUS"     },
-	{ name = "ICON_MAP_PIN_CIRCLE"   },
-	{ name = "ICON_MAP_PIN_TRIANGLE" },
-	{ name = "ICON_MAP_PIN_SUN"      },
-	{ name = "ICON_MAP_PIN_SQUARE"   },
-	{ name = "ICON_MAP_PIN_DIAMOND"  },
-};
-
 local sendToChatTTStr = Locale.Lookup( "LOC_MAP_PIN_SEND_TO_CHAT_TT" );
 local sendToChatNotVisibleTTStr = Locale.Lookup( "LOC_MAP_PIN_SEND_TO_CHAT_NOT_VISIBLE_TT" );
+
+local showBasicIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING", nil, 
+  function(value) Controls.BasicsContainer:SetHide(not value) end);
+local showDistrictIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_DISTRICT_ICONS_SETTING", nil, 
+  function(value) Controls.DistrictsContainer:SetHide(not value) end);
+local showImprovementIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING", nil, 
+  function(value) Controls.ImprovementsContainer:SetHide(not value) end);
+local showDomesticActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING", nil, 
+  function(value) Controls.DomesticActionsContainer:SetHide(not value) end);
+local showInternationalActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_INTERNATIONAL_ACTION_ICONS_SETTING", nil, 
+  function(value) Controls.InternationalActionsContainer:SetHide(not value) end);
+local showMilitaryActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_MILITARY_ACTION_ICONS_SETTING", nil, 
+  function(value) Controls.MilitaryActionsContainer:SetHide(not value) end);
+local showGovernorIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_GOVERNOR_ICONS_SETTING", nil, 
+  function(value) Controls.GovernorsContainer:SetHide(not value) end);
+local showYieldIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_YIELD_ICONS_SETTING", nil, 
+  function(value) Controls.YieldsContainer:SetHide(not value) end);
+local showGreatPeopleIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_GREAT_PEOPLE_ICONS_SETTING", nil, 
+  function(value) Controls.GreatPeopleContainer:SetHide(not value) end);
+local showUnitIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_UNIT_ICONS_SETTING", nil, 
+  function(value) Controls.UnitsContainer:SetHide(not value) end);
+local showWonderIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_SHOW_WONDER_ICONS_SETTING", nil, 
+  function(value) Controls.WondersContainer:SetHide(not value) end);
 
 -------------------------------------------------------------------------------
 -- 
@@ -136,37 +149,19 @@ end
 function PopulateIconOptions()
 	-- unique icons are specific to the current player
 	g_uniqueIconsPlayer = Game.GetLocalPlayer();
-	-- build icon table with default pins + extensions
-	g_iconPulldownOptions = MapTacksIconOptions(g_stockIcons);
+	
+  PopulateIconOptionsForCategory(Controls.BasicsIconOptionStack, GetStockIcons(), true);
+  PopulateIconOptionsForCategory(Controls.DistrictsIconOptionStack, GetDistrictIcons());
+  PopulateIconOptionsForCategory(Controls.ImprovementsIconOptionStack, GetImprovementIcons());
+  PopulateIconOptionsForCategory(Controls.DomesticActionsIconOptionStack, GetDomesticActionIcons());
+  PopulateIconOptionsForCategory(Controls.InternationalActionsIconOptionStack, GetInternationalActionIcons());
+  PopulateIconOptionsForCategory(Controls.MilitaryActionsIconOptionStack, GetMilitaryActionIcons());
+  PopulateIconOptionsForCategory(Controls.GovernorsIconOptionStack, GetGovernorIcons());
+  PopulateIconOptionsForCategory(Controls.GreatPeopleIconOptionStack, GetGreatPeopleIcons());
+  PopulateIconOptionsForCategory(Controls.YieldsIconOptionStack, GetYieldIcons());
+  PopulateIconOptionsForCategory(Controls.UnitsIconOptionStack, GetUnitIcons());
+  PopulateIconOptionsForCategory(Controls.WondersIconOptionStack, GetWonderIcons());
 
-	g_iconOptionEntries = {};
-	Controls.IconOptionStack:DestroyAllChildren();
-
-	local controlTable = {};
-	local  newIconEntry = {};
-	for i, pair in ipairs(g_iconPulldownOptions) do
-		controlTable = {};
-		newIconEntry = {};
-		ContextPtr:BuildInstanceForControl( "IconOptionInstance", controlTable, Controls.IconOptionStack );
-		SetMapPinIcon(controlTable.Icon, pair.name);
-	    controlTable.IconOptionButton:RegisterCallback(Mouse.eLClick, OnIconOption);
-		controlTable.IconOptionButton:SetVoids(i, -1);
-		if pair.tooltip then
-			local tooltip = ToolTipHelper.GetToolTip(pair.tooltip, Game.GetLocalPlayer()) or Locale.Lookup(pair.tooltip);
-			controlTable.IconOptionButton:SetToolTipString(tooltip);
-		end
-
-		newIconEntry.IconName = pair.name;
-		newIconEntry.Instance = controlTable;
-		g_iconOptionEntries[i] = newIconEntry;
-
-		UpdateIconOptionColor(i);
-	end
-
-	Controls.IconOptionStack:CalculateSize();
-	Controls.IconOptionStack:ReprocessAnchoring();
-	Controls.OptionsStack:CalculateSize();
-	Controls.OptionsStack:ReprocessAnchoring();
 	Controls.WindowContentsStack:CalculateSize();
 	Controls.WindowContentsStack:ReprocessAnchoring();
 	Controls.WindowStack:CalculateSize();
@@ -174,24 +169,33 @@ function PopulateIconOptions()
 	Controls.WindowContainer:ReprocessAnchoring();
 end
 
--- ===========================================================================
-function UpdateIconOptionColors()
-	for iconIndex, iconEntry in pairs(g_iconOptionEntries) do
-		UpdateIconOptionColor(iconIndex);
-	end
+function PopulateIconOptionsForCategory(control, iconData, smallIcons) 
+  control:DestroyAllChildren();
+  for _, iconData in ipairs(iconData) do
+    local controlTable = {};
+    local iconName = iconData.name;
+    ContextPtr:BuildInstanceForControl(smallIcons and "IconOptionInstanceSmall" or "IconOptionInstance", controlTable, control);
+    SetMapPinIcon(controlTable.Icon, iconName);
+    controlTable.IconOptionButton:RegisterCallback(Mouse.eLClick, function() OnIconOption(iconName) end);
+
+    if iconData.tooltip then
+			local tooltip = ToolTipHelper.GetToolTip(iconData.tooltip, Game.GetLocalPlayer()) or Locale.Lookup(iconData.tooltip);
+			controlTable.IconOptionButton:SetToolTipString(tooltip);
+		end
+
+    g_iconOptionEntries[iconName] = controlTable;
+  end
+
+  control:CalculateSize();
+	control:ReprocessAnchoring();
 end
 
 -- ===========================================================================
-function UpdateIconOptionColor(iconEntryIndex :number)
-	local iconEntry :table = g_iconOptionEntries[iconEntryIndex];
-	if(iconEntry ~= nil) then
-		if(iconEntry.IconName == g_desiredIconName) then
-			-- Selected icon
-			iconEntry.Instance.IconOptionButton:SetSelected(true);
-		else
-			iconEntry.Instance.IconOptionButton:SetSelected(false);
-		end
-	end
+function UpdateIconSelection(iconName, selected)
+  local controlTable = g_iconOptionEntries[iconName];
+  if controlTable ~= nil then
+    controlTable.IconOptionButton:SetSelected(selected);
+  end
 end
 
 -- ===========================================================================
@@ -203,7 +207,10 @@ function RequestMapPin(hexX :number, hexY :number)
 	local pMapPin = pPlayerCfg:GetMapPin(hexX, hexY);
 	if(pMapPin ~= nil) then
 		g_editPinID = pMapPin:GetID();
+
+    UpdateIconSelection(g_desiredIconName, false);
 		g_desiredIconName = pMapPin:GetIconName();
+    UpdateIconSelection(g_desiredIconName, true);
 		if GameConfiguration.IsAnyMultiplayer() then
 			MapPinVisibilityToPlayerTarget(pMapPin:GetVisibility(), g_playerTarget);
 			UpdatePlayerTargetPulldown(Controls.VisibilityPull, g_playerTarget);
@@ -214,12 +221,9 @@ function RequestMapPin(hexX :number, hexY :number)
 
 		Controls.PinName:SetText(pMapPin:GetName());
 		Controls.PinName:TakeFocus();
-
-		UpdateIconOptionColors();
+		
 		ShowHideSendToChatButton();
 
-		Controls.IconOptionStack:CalculateSize();
-		Controls.IconOptionStack:ReprocessAnchoring();
 		Controls.OptionsStack:CalculateSize();
 		Controls.OptionsStack:ReprocessAnchoring();
 		Controls.WindowContentsStack:CalculateSize();
@@ -248,6 +252,17 @@ function GetEditPinConfig()
 	end
 
 	return nil;
+end
+
+-- Deletes the map pin with the given id
+function RequestDeleteMapPin(mapPinID :number)
+  if(mapPinID ~= nil) then
+    local activePlayerID = Game.GetLocalPlayer();
+    local pPlayerCfg = PlayerConfigurations[activePlayerID];
+    pPlayerCfg:DeleteMapPin(mapPinID);
+    Network.BroadcastPlayerInfo();
+    UI.PlaySound("Map_Pin_Remove");
+  end
 end
 
 -- ===========================================================================
@@ -283,13 +298,10 @@ function ShowHideSendToChatButton()
 end
 
 -- ===========================================================================
-function OnIconOption( iconPulldownIndex :number, notUsed :number )
-	local iconOptions :table = g_iconPulldownOptions[iconPulldownIndex];
-	if(iconOptions) then
-		local newIconName :string = iconOptions.name;
-		g_desiredIconName = newIconName;
-		UpdateIconOptionColors();
-	end
+function OnIconOption(iconName :string)
+  UpdateIconSelection(g_desiredIconName, false);
+	g_desiredIconName = iconName;
+	UpdateIconSelection(g_desiredIconName, true);
 end
 
 -- ===========================================================================
@@ -356,6 +368,23 @@ function OnLocalPlayerChanged()
 	end
 end
 
+function OnDiplomacyMeet(player1ID:number, player2ID:number)
+	local localPlayerID:number = Game.GetLocalPlayer();
+	-- Have a local player?
+	if(localPlayerID ~= -1) then
+		-- Was the local player involved?
+		if (player1ID == localPlayerID or player2ID == localPlayerID) then
+			UpdateAvailableIcons();
+		end
+	end
+end
+
+function UpdateAvailableIcons() 
+  PopulateIconOptions();
+  UpdateIconSelection(g_desiredIconName, true);
+end
+
+
 -- ===========================================================================
 --	Keyboard INPUT Handler
 -- ===========================================================================
@@ -378,6 +407,19 @@ function Initialize()
 	ContextPtr:SetInputHandler( OnInputHandler, true );
 
 	PopulateIconOptions();
+
+  Controls.BasicsContainer:SetHide(not showBasicIcons.Value)
+  Controls.DistrictsContainer:SetHide(not showDistrictIcons.Value)
+  Controls.ImprovementsContainer:SetHide(not showImprovementIcons.Value)
+  Controls.DomesticActionsContainer:SetHide(not showDomesticActionIcons.Value)
+  Controls.InternationalActionsContainer:SetHide(not showInternationalActionIcons.Value)
+  Controls.MilitaryActionsContainer:SetHide(not showMilitaryActionIcons.Value)
+  Controls.GovernorsContainer:SetHide(not showGovernorIcons.Value)
+  Controls.GreatPeopleContainer:SetHide(not showGreatPeopleIcons.Value)
+  Controls.YieldsContainer:SetHide(not showYieldIcons.Value)
+  Controls.UnitsContainer:SetHide(not showUnitIcons.Value)
+  Controls.WondersContainer:SetHide(not showWonderIcons.Value)
+
 	PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull);
 	Controls.DeleteButton:RegisterCallback(Mouse.eLClick, OnDelete);
 	Controls.DeleteButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
@@ -387,12 +429,15 @@ function Initialize()
 	Controls.OkButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	Controls.PinName:RegisterCommitCallback( OnOk );
 	
+  LuaEvents.MapTacks_UpdateAvailableIcons.Add(UpdateAvailableIcons);
 	LuaEvents.MapPinPopup_RequestMapPin.Add(RequestMapPin);
 	LuaEvents.ChatPanel_PlayerTargetChanged.Add(OnChatPanel_PlayerTargetChanged);
+  LuaEvents.MapPinPopup_RequestDeleteMapPin.Add(RequestDeleteMapPin);
 
 	-- When player info is changed, this pulldown needs to know so it can update itself if it becomes invalid.
 	Events.PlayerInfoChanged.Add(OnMapPinPlayerInfoChanged);
 	Events.LocalPlayerChanged.Add(OnLocalPlayerChanged);
+  Events.DiplomacyMeet.Add(OnDiplomacyMeet);
 
 	-- Request the chat panel's player target so we have an initial value. 
 	-- We have to do this because the map pin's context is loaded after the chat panel's 
