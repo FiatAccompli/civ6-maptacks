@@ -217,8 +217,8 @@ function GetImprovementIcons()
   for _, v in ipairs(minorCivIcons) do table.insert(icons, v); end
   for _, v in ipairs(engineerIcons) do table.insert(icons, v); end
   table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST));
-	table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE));
-	table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE));
+  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE));
+  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE));
   table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_IMPROVEMENT));
   return icons;
 end
