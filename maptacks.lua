@@ -227,26 +227,25 @@ function GetDomesticActionIcons()
   return {
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_FOUND_CITY),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_FOUND_RELIGION),
-	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_ROUTE),
-	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_CLEAR_CONTAMINATION),
-	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REPAIR),
-	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_DESIGNATE_PARK),
-	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_EXCAVATE),
-	  {
-		  name="ICON_UNITOPERATION_SPY_COUNTERSPY_ACTION",
-		  -- Description="LOC_UNIT_SPY_NAME",
-		  tooltip="LOC_UNITOPERATION_SPY_COUNTERSPY_DESCRIPTION",
-	  },
-	  
-	  --[[{
-		  name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
-		  tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
-	  },
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_ROUTE),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_CLEAR_CONTAMINATION),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REPAIR),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_DESIGNATE_PARK),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_EXCAVATE),
+    {
+      name="ICON_UNITOPERATION_SPY_COUNTERSPY_ACTION",
+      -- Description="LOC_UNIT_SPY_NAME",
+      tooltip="LOC_UNITOPERATION_SPY_COUNTERSPY_DESCRIPTION",
+    },
+    --[[{
+      name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
+      tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
+    },
     --]]
-	  -- GameInfo.Notifications.NOTIFICATION_CITY_RANGE_ATTACK,
-	  -- GameInfo.Notifications.NOTIFICATION_BARBARIANS_SIGHTED,
-	  -- GameInfo.Notifications.NOTIFICATION_DISCOVER_GOODY_HUT,
-	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_ACTIVATE_GREAT_PERSON),
+    -- GameInfo.Notifications.NOTIFICATION_CITY_RANGE_ATTACK,
+    -- GameInfo.Notifications.NOTIFICATION_BARBARIANS_SIGHTED,
+    -- GameInfo.Notifications.NOTIFICATION_DISCOVER_GOODY_HUT,
+    MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_ACTIVATE_GREAT_PERSON),
   };
 end
 
@@ -372,7 +371,7 @@ function GetUnitIcons()
     -- Skip great people since they're in their own container.
     if item.CanTrain then
       local trait = item.TraitType;
-			if not trait or traitFunc(trait) then
+      if not trait or traitFunc(trait) then
         table.insert(icons, { name = "ICON_"..item.UnitType, tooltip = item.Name });
       end
     end
@@ -385,10 +384,10 @@ function GetWonderIcons()
   local icons = {};
 
   for item in GameInfo.Buildings() do
-		if item.IsWonder then
-			table.insert(icons, { name = "ICON_" .. item.BuildingType, tooltip = item.BuildingType });
-		end
-	end
+    if item.IsWonder then
+      table.insert(icons, { name = "ICON_" .. item.BuildingType, tooltip = item.BuildingType });
+    end
+  end
   return icons;
 end
 
