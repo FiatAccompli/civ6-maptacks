@@ -207,8 +207,7 @@ function OnMapPinFlagRightClick( playerID : number, pinID : number )
     local flagInstance = GetMapPinFlag( playerID, pinID );
 		if (flagInstance ~= nil) then
 			local pMapPin = flagInstance:GetMapPin();
-			if(pMapPin ~= nil) then		
-        print("Doing delete");
+			if(pMapPin ~= nil) then
 				LuaEvents.MapPinPopup_RequestDeleteMapPin(pinID);
 			end
 		end
@@ -221,7 +220,7 @@ function MapPinFlag.SetInteractivity( self : MapPinFlag )
 
     local localPlayerID :number = Game.GetLocalPlayer();
     local flagPlayerID	:number = self.m_Player:GetID();
-	local pinID			:number = self.m_pinID;
+    local pinID :number = self.m_pinID;
         			
 
     self.m_Instance.NormalButton:SetVoid1( flagPlayerID );
@@ -691,7 +690,7 @@ function OnInput(input:table)
   if UI.GetInterfaceMode() == InterfaceModeTypes.SELECTION then
     if addPinKeyBinding:MatchesInput(input) then
       local plotId = UI.GetCursorPlotID();
-	    if (Map.IsPlot(plotId)) then
+      if (Map.IsPlot(plotId)) then
         local plot = Map.GetPlotByIndex(plotId);
         LuaEvents.MapPinPopup_RequestMapPin(plot:GetX(), plot:GetY());
       end
@@ -711,7 +710,7 @@ end
 function Initialize()
 	ContextPtr:SetInitHandler( OnContextInitialize );
 	ContextPtr:SetShutdown( OnShutdown );
-  ContextPtr:SetInputHandler( OnInput, true );
+	ContextPtr:SetInputHandler( OnInput, true );
     
 	Events.BeginWonderReveal.Add( OnBeginWonderReveal );
 	Events.Camera_Updated.Add( OnCameraUpdate );

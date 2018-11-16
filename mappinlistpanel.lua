@@ -3,7 +3,6 @@
 ----------------------------------------------------------------  
 
 include( "MapTacks" );
-include( "ModSettings");
 
 
 local m_playerMapPins	:table = {};
