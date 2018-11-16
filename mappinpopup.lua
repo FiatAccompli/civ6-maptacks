@@ -29,39 +29,43 @@ local g_cachedChatPanelTarget = nil; -- Cached player target for ingame chat pan
 local sendToChatTTStr = Locale.Lookup( "LOC_MAP_PIN_SEND_TO_CHAT_TT" );
 local sendToChatNotVisibleTTStr = Locale.Lookup( "LOC_MAP_PIN_SEND_TO_CHAT_NOT_VISIBLE_TT" );
 
-local showBasicIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING", nil, 
-  function(value) Controls.BasicsContainer:SetHide(not value) end);
-local showDistrictIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_DISTRICT_ICONS_SETTING", nil, 
-  function(value) Controls.DistrictsContainer:SetHide(not value) end);
-local showImprovementIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING", nil, 
-  function(value) Controls.ImprovementsContainer:SetHide(not value) end);
-local showDomesticActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING", nil, 
-  function(value) Controls.DomesticActionsContainer:SetHide(not value) end);
-local showInternationalActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_INTERNATIONAL_ACTION_ICONS_SETTING", nil, 
-  function(value) Controls.InternationalActionsContainer:SetHide(not value) end);
-local showMilitaryActionIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_MILITARY_ACTION_ICONS_SETTING", nil, 
-  function(value) Controls.MilitaryActionsContainer:SetHide(not value) end);
-local showGovernorIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_GOVERNOR_ICONS_SETTING", nil, 
-  function(value) Controls.GovernorsContainer:SetHide(not value) end);
-local showYieldIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_YIELD_ICONS_SETTING", nil, 
-  function(value) Controls.YieldsContainer:SetHide(not value) end);
-local showGreatPeopleIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_GREAT_PEOPLE_ICONS_SETTING", nil, 
-  function(value) Controls.GreatPeopleContainer:SetHide(not value) end);
-local showUnitIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_UNIT_ICONS_SETTING", nil, 
-  function(value) Controls.UnitsContainer:SetHide(not value) end);
-local showWonderIcons = ModSettings.Boolean:new(true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
-  "LOC_MAP_TACKS_SHOW_WONDER_ICONS_SETTING", nil, 
-  function(value) Controls.WondersContainer:SetHide(not value) end);
+local basicControl;
+local districtsControl;
+local improvementsControl;
+local domesticActionsControl;
+local internationalActionsControl;
+local militaryActionsControl;
+local spyActionsControl;
+local greatPeopleControl;
+local governorsControl;
+local yieldsControl;
+local unitsControl;
+local wondersControl;
+
+local showBasicIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING");
+local showDistrictIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_DISTRICT_ICONS_SETTING");
+local showImprovementIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY","LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING");
+local showDomesticActionIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING");
+local showInternationalActionIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_INTERNATIONAL_ACTION_ICONS_SETTING");
+local showMilitaryActionIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_MILITARY_ACTION_ICONS_SETTING");
+local showSpyActionIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_SPY_ACTION_ICONS_SETTING");
+local showGreatPeopleIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_GREAT_PEOPLE_ICONS_SETTING");
+local showGovernorIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_GOVERNOR_ICONS_SETTING");
+local showYieldIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_YIELD_ICONS_SETTING");
+local showUnitIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_UNIT_ICONS_SETTING");
+local showWonderIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_WONDER_ICONS_SETTING");
 
 -------------------------------------------------------------------------------
 -- 
@@ -150,23 +154,26 @@ function PopulateIconOptions()
 	-- unique icons are specific to the current player
 	g_uniqueIconsPlayer = Game.GetLocalPlayer();
 	
-  PopulateIconOptionsForCategory(Controls.BasicsIconOptionStack, GetStockIcons(), true);
-  PopulateIconOptionsForCategory(Controls.DistrictsIconOptionStack, GetDistrictIcons());
-  PopulateIconOptionsForCategory(Controls.ImprovementsIconOptionStack, GetImprovementIcons());
-  PopulateIconOptionsForCategory(Controls.DomesticActionsIconOptionStack, GetDomesticActionIcons());
-  PopulateIconOptionsForCategory(Controls.InternationalActionsIconOptionStack, GetInternationalActionIcons());
-  PopulateIconOptionsForCategory(Controls.MilitaryActionsIconOptionStack, GetMilitaryActionIcons());
-  PopulateIconOptionsForCategory(Controls.GovernorsIconOptionStack, GetGovernorIcons());
-  PopulateIconOptionsForCategory(Controls.GreatPeopleIconOptionStack, GetGreatPeopleIcons());
-  PopulateIconOptionsForCategory(Controls.YieldsIconOptionStack, GetYieldIcons());
-  PopulateIconOptionsForCategory(Controls.UnitsIconOptionStack, GetUnitIcons());
-  PopulateIconOptionsForCategory(Controls.WondersIconOptionStack, GetWonderIcons());
+  PopulateIconOptionsForCategory(basicsControl.IconOptionStack, GetStockIcons(), true);
+  PopulateIconOptionsForCategory(districtsControl.IconOptionStack, GetDistrictIcons());
+  PopulateIconOptionsForCategory(improvementsControl.IconOptionStack, GetImprovementIcons());
+  PopulateIconOptionsForCategory(domesticActionsControl.IconOptionStack, GetDomesticActionIcons());
+  PopulateIconOptionsForCategory(internationalActionsControl.IconOptionStack, GetInternationalActionIcons());
+  PopulateIconOptionsForCategory(militaryActionsControl.IconOptionStack, GetMilitaryActionIcons());
+  PopulateIconOptionsForCategory(spyActionsControl.IconOptionStack, GetSpyActionIcons());
+  PopulateIconOptionsForCategory(greatPeopleControl.IconOptionStack, GetGreatPeopleIcons());
+  if (GameInfo.Governors) then 
+    PopulateIconOptionsForCategory(governorsControl.IconOptionStack, GetGovernorIcons());
+  end
+  PopulateIconOptionsForCategory(yieldsControl.IconOptionStack, GetYieldIcons());
+  PopulateIconOptionsForCategory(unitsControl.IconOptionStack, GetUnitIcons());
+  PopulateIconOptionsForCategory(wondersControl.IconOptionStack, GetWonderIcons());
 
-	Controls.WindowContentsStack:CalculateSize();
-	Controls.WindowContentsStack:ReprocessAnchoring();
-	Controls.WindowStack:CalculateSize();
-	Controls.WindowStack:ReprocessAnchoring();
-	Controls.WindowContainer:ReprocessAnchoring();
+	--Controls.WindowContentsStack:CalculateSize();
+	--Controls.WindowContentsStack:ReprocessAnchoring();
+	--Controls.WindowStack:CalculateSize();
+	--Controls.WindowStack:ReprocessAnchoring();
+	--Controls.WindowContainer:ReprocessAnchoring();
 end
 
 function PopulateIconOptionsForCategory(control, iconData, smallIcons) 
@@ -384,12 +391,32 @@ function UpdateAvailableIcons()
   UpdateIconSelection(g_desiredIconName, true);
 end
 
+function MakeCategoryUI(name:string, control:table, showSetting:table)
+  local controlTable = {};
+  ContextPtr:BuildInstanceForControl("IconCategoryInstance", controlTable, control);
+  controlTable.CategoryName:LocalizeAndSetText(name);
+
+  function expandHandler(value)
+    controlTable.Icons:SetHide(not value);
+    controlTable.ExpanderIcon:SetTextureOffsetVal(0, value and controlTable.ExpanderIcon:GetSizeY() or 0);
+  end
+  showSetting:AddChangedHandler(expandHandler);
+  expandHandler(showSetting.Value);
+
+  controlTable.CategoryName:RegisterCallback(Mouse.eLClick, 
+    function()
+      showSetting:Change(not showSetting.Value);
+    end);
+  
+  return controlTable;
+end
 
 -- ===========================================================================
 --	Keyboard INPUT Handler
 -- ===========================================================================
 function KeyHandler( key:number )
 	if (key == Keys.VK_ESCAPE) then OnCancel(); return true; end
+  if (key == Keys.VK_RETURN) then OnOk(); return true; end
 	return false;
 end
 -- ===========================================================================
@@ -406,19 +433,22 @@ end
 function Initialize()
 	ContextPtr:SetInputHandler( OnInputHandler, true );
 
+  basicsControl = MakeCategoryUI("LOC_MAP_TACKS_BASICS_CATEGORY", Controls.IconCategoriesFirstColumn, showBasicIcons);
+  districtsControl = MakeCategoryUI("LOC_HUD_DISTRICTS", Controls.IconCategoriesFirstColumn, showDistrictIcons);
+  improvementsControl = MakeCategoryUI("LOC_TECH_FILTER_IMPROVEMENTS", Controls.IconCategoriesSecondColumn, showImprovementIcons);
+  domesticActionsControl = MakeCategoryUI("LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showDomesticActionIcons);
+  internationalActionsControl = MakeCategoryUI("LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showInternationalActionIcons);
+  militaryActionsControl = MakeCategoryUI("LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showMilitaryActionIcons);
+  spyActionsControl = MakeCategoryUI("LOC_MAP_TACKS_SPY_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showSpyActionIcons);
+  greatPeopleControl = MakeCategoryUI("LOC_PEDIA_GREATPEOPLE_TITLE", Controls.IconCategoriesFirstColumn, showGreatPeopleIcons);
+  if GameInfo.Governors then
+    governorsControl = MakeCategoryUI("LOC_MAP_TACKS_GOVERNORS_CATEGORY", Controls.IconCategoriesFirstColumn, showGovernorIcons);
+  end
+  yieldsControl = MakeCategoryUI("LOC_HUD_REPORTS_TAB_YIELDS", Controls.IconCategoriesFirstColumn, showYieldIcons);
+  wondersControl = MakeCategoryUI("LOC_CATEGORY_WONDER_NAME", Controls.IconCategoriesThirdColumn, showWonderIcons);
+  unitsControl = MakeCategoryUI("LOC_TECH_FILTER_UNITS", Controls.IconCategoriesThirdColumn, showUnitIcons);
+ 
 	PopulateIconOptions();
-
-  Controls.BasicsContainer:SetHide(not showBasicIcons.Value)
-  Controls.DistrictsContainer:SetHide(not showDistrictIcons.Value)
-  Controls.ImprovementsContainer:SetHide(not showImprovementIcons.Value)
-  Controls.DomesticActionsContainer:SetHide(not showDomesticActionIcons.Value)
-  Controls.InternationalActionsContainer:SetHide(not showInternationalActionIcons.Value)
-  Controls.MilitaryActionsContainer:SetHide(not showMilitaryActionIcons.Value)
-  Controls.GovernorsContainer:SetHide(not showGovernorIcons.Value)
-  Controls.GreatPeopleContainer:SetHide(not showGreatPeopleIcons.Value)
-  Controls.YieldsContainer:SetHide(not showYieldIcons.Value)
-  Controls.UnitsContainer:SetHide(not showUnitIcons.Value)
-  Controls.WondersContainer:SetHide(not showWonderIcons.Value)
 
 	PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull);
 	Controls.DeleteButton:RegisterCallback(Mouse.eLClick, OnDelete);

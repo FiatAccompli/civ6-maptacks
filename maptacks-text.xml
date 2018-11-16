@@ -31,6 +31,7 @@
     <Replace Tag="LOC_MAP_PIN_LIST_REMOTE_PIN_TOOLTIP" Language="en_US">
       <Text>Left click to find the tack on the map.</Text>
     </Replace>
+    
     <Row Language="en_US" Tag="LOC_MAP_TACKS_BASICS_CATEGORY">
       <Text>Basic</Text>
     </Row>
@@ -43,9 +44,13 @@
     <Row Language="en_US" Tag="LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY">
       <Text>Military Actions</Text>
     </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SPY_ACTIONS_CATEGORY">
+      <Text>Spy Actions</Text>
+    </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_GOVERNORS_CATEGORY">
       <Text>Governors</Text>
     </Row>
+    
     <Row Language="en_US" Tag="LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY">
       <Text>Map Tacks</Text>
     </Row>
@@ -67,6 +72,9 @@
     </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_MILITARY_ACTION_ICONS_SETTING">
       <Text>Show military action icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_SPY_ACTION_ICONS_SETTING">
+      <Text>Show spy action icons</Text>
     </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_GOVERNOR_ICONS_SETTING">
       <Text>Show governor icons</Text>
@@ -131,6 +139,20 @@
     </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL">
       <Text>All</Text>
-    </Row> 
+    </Row>
+
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING">
+      <Text>Add pin</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_REMOVE_PIN_KEYBIND_SETTING">
+      <Text>Remove pin</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING_TOOLTIP">
+      <Text>Key binding to add/edit a map pin in world view mode.</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_REMOVE_PIN_KEYBIND_SETTING_TOOLTIP">
+      <Text>Key binding to remove a map pin in world view mode.</Text>
+    </Row>
+
   </LocalizedText>
 </GameData>

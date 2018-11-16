@@ -3,6 +3,7 @@
 ----------------------------------------------------------------  
 
 include( "MapTacks" );
+include( "ModSettings");
 
 
 local m_playerMapPins	:table = {};
@@ -257,7 +258,6 @@ function Initialize()
 	Events.PlayerInfoChanged.Add(OnPlayerInfoChanged);
 	Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
 	Events.LocalPlayerChanged.Add( OnLocalPlayerChanged );
-
 
 	BuildMapPinList();
 

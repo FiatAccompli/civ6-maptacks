@@ -4,8 +4,6 @@
 
 include ("ModSettings")
 
-local g_enableWonders = false;
-
 local g_debugLeader = nil;
 -- g_debugLeader = GameInfo.Leaders.LEADER_BARBAROSSA
 -- g_debugLeader = GameInfo.Leaders.LEADER_CATHERINE_DE_MEDICI
@@ -121,10 +119,13 @@ local uniqueImprovementsSettingValues = {"LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTI
                                          "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_MET_CIVS_IN_GAME",
                                          "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL_CIVS_IN_GAME",
                                          "LOC_MAP_TACKS_UNIQUE_IMPROVEMENTS_OPTION_ALL"};
-uniqueImprovementSetting = ModSettings.Select:new(uniqueImprovementsSettingValues, 2, 
+local uniqueImprovementSetting = ModSettings.Select:new(uniqueImprovementsSettingValues, 2, 
   "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY",
-  "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING", "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING_TOOLTIP",
-  function () LuaEvents.MapTacks_UpdateAvailableIcons() end);
+  "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING", "LOC_MOD_TACKS_UNIQUE_IMPROVEMENTS_SETTING_TOOLTIP");
+uniqueImprovementSetting:AddChangedHandler(
+  function()
+    LuaEvents.MapTacks_UpdateAvailableIcons();
+  end);
 
 function GetImprovementTraitsFunc()
   if uniqueImprovementSetting.Value == uniqueImprovementsSettingValues[7] then
@@ -214,6 +215,7 @@ function GetImprovementIcons()
   local icons = {};
   for _, v in ipairs(uniqueIcons) do table.insert(icons, v); end
   for _, v in ipairs(builderIcons) do table.insert(icons, v); end
+  for _, v in ipairs(governorIcons) do table.insert(icons, v); end
   for _, v in ipairs(minorCivIcons) do table.insert(icons, v); end
   for _, v in ipairs(engineerIcons) do table.insert(icons, v); end
   table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST));
@@ -237,11 +239,6 @@ function GetDomesticActionIcons()
       -- Description="LOC_UNIT_SPY_NAME",
       tooltip="LOC_UNITOPERATION_SPY_COUNTERSPY_DESCRIPTION",
     },
-    --[[{
-      name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
-      tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
-    },
-    --]]
     -- GameInfo.Notifications.NOTIFICATION_CITY_RANGE_ATTACK,
     -- GameInfo.Notifications.NOTIFICATION_BARBARIANS_SIGHTED,
     -- GameInfo.Notifications.NOTIFICATION_DISCOVER_GOODY_HUT,
@@ -249,10 +246,53 @@ function GetDomesticActionIcons()
   };
 end
 
+function MakeDiplomaticActionIcon(item)
+  return { name = "ICON_" .. item.DiplomaticActionType, tooltip = item.Name or item.Description };
+end
+
+function MakeNotificationIcon(item, tooltip)
+  return { name = "ICON_" .. item.NotificationType, tooltip = tooltip or item.Message};
+end
+
+
 function GetInternationalActionIcons() 
   return {
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_MAKE_TRADE_ROUTE),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPREAD_RELIGION),
+    {
+      name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
+      tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
+    },
+    MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_ALLIANCE),
+    MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_DECLARE_FRIENDSHIP),
+    { 
+      name="ICON_NOTIFICATION_DIPLO_DENUNCIATION_EXPIRED",
+      tooltip="LOC_DIPLOACTION_DENOUNCE_NAME"
+    },
+    --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_GIFT_UNIT),
+    {
+      name="ICON_NOTIFICATION_DIPLOMACY_SESSION",
+      tooltip="LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_NAME"
+    },
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_GIVE_INFLUENCE_TOKEN),
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_DECLARE_WAR, "LOC_DECLARE_WAR_BUTTON"),
+    --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_JOINT_WAR),
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_MAKE_PEACE, "LOC_MAKE_PEACE_BUTTON"),
+    --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_MILITARY_REQUEST),
+    --{
+    --  name="ICON_NOTIFICATION_BORDERS_NOW_ENFORCED",
+    --  tooltip="LOC_DIPLOACTION_OPEN_BORDERS"
+    --},
+    MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_OPEN_BORDERS),
+    --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_REQUEST_ASSISTANCE),
+    --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_THIRD_PARTY_WAR),
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_DISCOVER_RESOURCE, "LOC_RESOURCE_NAME"),
+    --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_GIFT),
+  };
+end
+
+function GetSpyActionIcons() 
+  local icons = {
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_TRAVEL_NEW_CITY),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_DISRUPT_ROCKETRY),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_GAIN_SOURCES),
@@ -262,12 +302,19 @@ function GetInternationalActionIcons()
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SABOTAGE_PRODUCTION),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SIPHON_FUNDS),
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_STEAL_TECH_BOOST),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR),
-    --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_GIFT),
   };
-end
+  -- New operations in Rise and Fall.
+  if (GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL) then 
+    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL));
+  end
+  if (GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST) then 
+    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST));
+  end
+  if (GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR) then 
+    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR));
+  end
+  return icons;
+end 
 
 function GetMilitaryActionIcons() 
   return {
@@ -278,17 +325,17 @@ function GetMilitaryActionIcons()
     MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_AIR_ATTACK),
 	  MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_WMD_STRIKE),
 	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_PLUNDER_TRADE_ROUTE),
-    --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_FORM_CORPS),
+    MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_FORM_CORPS),
 	  MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_FORM_ARMY),
     {
 		  name="ICON_UNITCOMMAND_DELETE",
 		  tooltip="LOC_DELETE_BUTTON",
 	  },
-    --[[ {
+    {
 		  name="ICON_NOTIFICATION_BARBARIANS_SIGHTED",
 		  tooltip="LOC_IMPROVEMENT_BARBARIAN_CAMP_NAME",
 	  },
-    --]]
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_CONSIDER_RAZE_CITY, "LOC_RAZE_CITY_RAZE_BUTTON_LABEL"),
   };
 end
 
@@ -328,10 +375,13 @@ local uniqueUnitsSettingValues = {"LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_SELF_ONLY",
                                   "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_MET_CIVS_IN_GAME",
                                   "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL_CIVS_IN_GAME",
                                   "LOC_MAP_TACKS_UNIQUE_UNITS_OPTION_ALL"};
-uniqueUnitsSetting = ModSettings.Select:new(uniqueUnitsSettingValues, 1,
+local uniqueUnitsSetting = ModSettings.Select:new(uniqueUnitsSettingValues, 1,
   "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY",
-  "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING", "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING_TOOLTIP",
-  LuaEvents.MapTacks_UpdateAvailableIcons);
+  "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING", "LOC_MOD_TACKS_UNIQUE_UNITS_SETTING_TOOLTIP");
+uniqueUnitsSetting:AddChangedHandler(
+  function()
+    LuaEvents.MapTacks_UpdateAvailableIcons();
+  end);
 
 function GetUnitTraitsFunc()
   if uniqueUnitsSetting.Value == uniqueUnitsSettingValues[4] then
@@ -406,6 +456,12 @@ function MapTacksType(pin : table)
 		return MAPTACKS_STOCK;
 	elseif iconType == "UNIT_" then
 		return MAPTACKS_WHITE;
+  elseif iconType == "UNITO" then
+		if iconName:sub(20,22) == "SPY" and iconName:sub(24,29) ~= "TRAVEL" then
+      return MAPTACKS_WHITE;
+    else 
+      return MAPTACKS_GRAY;
+    end
 	elseif iconType == "DISTR" then
 		return MAPTACKS_COLOR;
 	elseif iconType == "BUILD" then  -- wonders

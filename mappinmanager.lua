@@ -97,7 +97,8 @@ MapPinFlag = hmake MapPinFlagMeta {};
 -- Link its __index to itself
 MapPinFlag.__index = MapPinFlag;
 
-
+local addPinKeyBinding = ModSettings.KeyBinding:new(ModSettings.KeyBinding.MakeValue(Keys.D, true, false, false), 
+  "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING_TOOLTIP");
 
 -- ===========================================================================
 --	Obtain the unit flag associate with a player and unit.
@@ -201,15 +202,17 @@ end
 
 ------------------------------------------------------------------
 function OnMapPinFlagRightClick( playerID : number, pinID : number )
-	--[[
 	-- If we are the owner of this pin, delete the pin.
 	if(playerID == Game.GetLocalPlayer()) then
-		local playerCfg = PlayerConfigurations[playerID];
-		playerCfg:DeleteMapPin(pinID);
-		Network.BroadcastPlayerInfo();
-        UI.PlaySound("Map_Pin_Remove");
+    local flagInstance = GetMapPinFlag( playerID, pinID );
+		if (flagInstance ~= nil) then
+			local pMapPin = flagInstance:GetMapPin();
+			if(pMapPin ~= nil) then		
+        print("Doing delete");
+				LuaEvents.MapPinPopup_RequestDeleteMapPin(pinID);
+			end
+		end
 	end
-	--]]
 end
 
 ------------------------------------------------------------------
@@ -684,6 +687,19 @@ function OnEndWonderReveal()
 	ContextPtr:SetHide( false );
 end
 
+function OnInput(input:table)
+  if UI.GetInterfaceMode() == InterfaceModeTypes.SELECTION then
+    if addPinKeyBinding:MatchesInput(input) then
+      local plotId = UI.GetCursorPlotID();
+	    if (Map.IsPlot(plotId)) then
+        local plot = Map.GetPlotByIndex(plotId);
+        LuaEvents.MapPinPopup_RequestMapPin(plot:GetX(), plot:GetY());
+      end
+      return true;
+    end
+  end
+end
+
 ----------------------------------------------------------------
 -- Handle the UI shutting down.
 function OnShutdown()
@@ -695,7 +711,8 @@ end
 function Initialize()
 	ContextPtr:SetInitHandler( OnContextInitialize );
 	ContextPtr:SetShutdown( OnShutdown );
-
+  ContextPtr:SetInputHandler( OnInput, true );
+    
 	Events.BeginWonderReveal.Add( OnBeginWonderReveal );
 	Events.Camera_Updated.Add( OnCameraUpdate );
 	Events.CombatVisBegin.Add( OnCombatVisBegin );		

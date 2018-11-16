@@ -22,7 +22,7 @@
         <zh_Hans_CN>Map Tack +</zh_Hans_CN>
         <zh_Hant_HK>Map Tacks +</zh_Hant_HK>
       </Text>
-      <Text id="LOC_MAP_TACKS_DESCRIPTION">
+      <Text id="LOC_MAP_TACKS_TEASER">
         <en_US>Improve the user interface for map pins.</en_US>
         <de_DE>Verbessere die Benutzerschnittstelle für Landkartennadeln.</de_DE>
         <es_ES>Mejore la interfaz de usuario para los marcadores del mapa.</es_ES>
@@ -44,7 +44,7 @@
   <xsl:template match="/Mod/LocalizedText"/>
 
   <!-- Modbuddy writes priority (lowercase) attribute, but the game looks for Priority (uppercase).  
-     Because I guess even the most cursory testing is unnecessary for Firaxis. -->
+       Because I guess even the most cursory testing is unnecessary for Firaxis. -->
   <xsl:template match="@priority">
     <xsl:attribute name="Priority">
       <xsl:value-of select="."/>

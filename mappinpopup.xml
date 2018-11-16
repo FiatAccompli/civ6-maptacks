@@ -17,84 +17,17 @@
                     <EditBox ID="PinName" Style="EditTextArea" Size="parent-34,22" Anchor="R,C" Offset="4,0" MaxLength="20" EditMode="0" KeepFocus="1"/>
                   </Grid>
                   <!-- Icons -->
-                    <Container Size="auto, auto">
-                        <Stack StackGrowth="Right" Size="auto,auto" Padding="20" Anchor="C,T">
-                            <Stack StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T">
-                                <Container ID="BasicsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_MAP_TACKS_BASICS_CATEGORY" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="BasicsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="320" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="DistrictsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_HUD_DISTRICTS" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="DistrictsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="360" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="ImprovementsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_TECH_FILTER_IMPROVEMENTS" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="ImprovementsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="DomesticActionsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="DomesticActionsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="InternationalActionsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="InternationalActionsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="MilitaryActionsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="MilitaryActionsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="GreatPeopleContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_PEDIA_GREATPEOPLE_TITLE" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="GreatPeopleIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="GovernorsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_MAP_TACKS_GOVERNORS_CATEGORY" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="GovernorsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="YieldsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_HUD_REPORTS_TAB_YIELDS" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="YieldsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                            </Stack>
-                            <Stack StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T">
-                                <Container ID="UnitsContainer" Anchor="C,T" Size="auto,auto">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_TECH_FILTER_UNITS" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="UnitsIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                                <Container ID="WondersContainer" Size="auto,auto" Anchor="C,T">
-                                    <Stack StackGrowth="Down" Size="auto,auto" Anchor="C,T" Padding="4">
-                                        <Label String="LOC_CATEGORY_WONDER_NAME" Style="CityPanelSubPanelTitle" Anchor="C,C"/>
-                                        <Stack ID="WondersIconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
-                                    </Stack>
-                                </Container>
-                            </Stack>
-                        </Stack>
-                    </Container>
-                  <!-- Visible to.. -->
-									<Container ID="VisibilityContainer" Anchor="C,T" Size="1,26" Hidden="1">
-										<PullDown ID="VisibilityPull" Anchor="C,T" Size="150,26" Style="WBPullDown"/>
-									</Container>
+                  <Container Size="auto, auto">
+                    <Stack StackGrowth="Right" Size="auto,auto" Padding="20" Anchor="C,T">
+                      <Stack ID="IconCategoriesFirstColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
+                      <Stack ID="IconCategoriesSecondColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
+                      <Stack ID="IconCategoriesThirdColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
+                    </Stack>
+                  </Container>
+                  <!-- Visible to. -->
+                  <Container ID="VisibilityContainer" Anchor="C,T" Size="1,26" Hidden="1">
+                    <PullDown ID="VisibilityPull" Anchor="C,T" Size="150,26" Style="WBPullDown"/>
+                  </Container>
 
                   <!-- Buttons -->
                   <Stack        ID="OptionsStack" StackGrowth="Right" Padding="10" Anchor="C,T"  WrapWidth="480">
@@ -113,8 +46,17 @@
     </AlphaAnim>
   </Box>
 
+  <Instance Name="IconCategoryInstance">
+    <Grid Size="400,auto" Texture="Controls_ItemContainer" InnerPadding="6,6" SliceCorner="8,8" SliceTextureSize="16,16" Anchor="C,T">
+      <Image ID="ExpanderIcon" Anchor="R,T" Offset="0,0" Size="22,22"	Texture="Controls_ExpandButton" />
+      <GridButton ID="CategoryName" Style="CityPanelSubPanelTitle" Size="parent,22" Anchor="C,T"/>
+      <Stack ID="Icons" StackGrowth="Down" Size="auto,auto" Offset="0,24" Anchor="C,T" Padding="4">
+        <Box Size="parent,1" Color="46,70,95,255" />
+        <Stack ID="IconOptionStack" Anchor="C,T" StackGrowth="Right" Padding="4" WrapWidth="400" WrapGrowth="Down" />
+      </Stack>
+    </Grid>
+  </Instance>
 
-  
   <Instance Name="IconOptionInstance">
     <Container ID="IconOptionRoot" Anchor="L,T" Size="40,36">
       <GridButton ID="IconOptionButton" Anchor="C,C" Size="parent,parent" Style="ButtonControl">
@@ -130,6 +72,5 @@
       </GridButton>
     </Container>
   </Instance>
-  
+
 </Context>
-<!-- vim: set sw=2 ts=2: -->
