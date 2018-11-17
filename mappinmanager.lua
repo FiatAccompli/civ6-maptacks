@@ -97,7 +97,7 @@ MapPinFlag = hmake MapPinFlagMeta {};
 -- Link its __index to itself
 MapPinFlag.__index = MapPinFlag;
 
-local addPinKeyBinding = ModSettings.KeyBinding:new(ModSettings.KeyBinding.MakeValue(Keys.D, true, false, false), 
+local addPinKeyBinding = ModSettings.KeyBinding:new(ModSettings.KeyBinding.MakeValue(Keys.D, {CTRL=true}), 
   "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING_TOOLTIP");
 
 -- ===========================================================================
