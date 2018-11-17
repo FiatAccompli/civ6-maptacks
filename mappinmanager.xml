@@ -37,8 +37,8 @@
             <Image ID="UnitIcon" Anchor="C,C" Size="24,24" Texture="MapPins24"/>
           </AlphaAnim>
 
-          <Grid ID="NameContainer" Texture="Controls_MapPinFrame.dds" SliceCorner="12,10" SliceTextureSize="25,20" Size="auto,20" Anchor="C,T" AnchorSide="I,O" AutoSizePadding="8" Offset="0,-8">
-            <Label ID="NameLabel" Anchor="C,C" String="UNKNOWN_MAP_PIN_NAME" Style="FontNormal14" ColorSet="BodyTextBright"/>
+          <Grid ID="NameContainer" Texture="Controls_MapPinFrame.dds" SliceCorner="12,8" SliceTextureSize="30,23" Size="auto,23" Anchor="C,T" AnchorSide="I,O" AutoSizePadding="8" Offset="0,-8">
+            <Label ID="NameLabel" Offset="0,0" Anchor="C,C" String="UNKNOWN_MAP_PIN_NAME" Style="FontNormal14" ColorSet="BodyTextBright"/>
           </Grid>
           
         </Container>
