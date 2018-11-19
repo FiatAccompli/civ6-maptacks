@@ -16,7 +16,7 @@
     <SupportsHotSeat>true</SupportsHotSeat>
     <AssemblyName>MapTacksPlus</AssemblyName>
     <RootNamespace>MapTacksPlus</RootNamespace>
-    <InGameActionData><![CDATA[<InGameActions><ImportFiles id="MapTacksUI"><Properties><LoadOrder>10200</LoadOrder></Properties><File>mappinlistpanel.lua</File><File>mappinlistpanel.xml</File><File>mappinmanager.lua</File><File>mappinmanager.xml</File><File>mappinpopup.lua</File><File>maptacks.lua</File><File>mappinpopup.xml</File></ImportFiles><UpdateText id="MapTacksText"><File>maptacks-text.xml</File></UpdateText><UpdateIcons id="MapTacksIcons"><File>maptacks_yield_icons.xml</File></UpdateIcons><ImportFiles id="Textures"><File>Controls_MapPinFrame.dds</File></ImportFiles></InGameActions>]]></InGameActionData>
+    <InGameActionData><![CDATA[<InGameActions><ImportFiles id="MapTacksUI"><Properties><LoadOrder>10200</LoadOrder></Properties><File>mappinlistpanel.lua</File><File>mappinlistpanel.xml</File><File>mappinmanager.lua</File><File>mappinmanager.xml</File><File>mappinpopup.lua</File><File>maptacks.lua</File><File>mappinpopup.xml</File></ImportFiles><UpdateText id="MapTacksText"><File>maptacks-text.xml</File></UpdateText><UpdateIcons id="MapTacksIcons"><File>maptacks_yield_icons.xml</File></UpdateIcons><ImportFiles id="Textures"><File>map_tacks_map_pin_frame.dds</File></ImportFiles></InGameActions>]]></InGameActionData>
     <ModProperties>
       <CustomProperties />
     </ModProperties>
@@ -25,9 +25,6 @@
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Controls_MapPinFrame.dds">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="maptacks_yield_icons.xml">
       <SubType>Content</SubType>
     </Content>
@@ -53,6 +50,9 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="maptacks.lua">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="map_tacks_map_pin_frame.dds">
       <SubType>Content</SubType>
     </Content>
     <Content Include="modinfo_fixer.xml">
