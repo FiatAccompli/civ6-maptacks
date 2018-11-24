@@ -47,8 +47,8 @@
   </Box>
 
   <Instance Name="IconCategoryInstance">
-    <Grid Size="400,auto" Texture="Controls_ItemContainer" InnerPadding="6,6" SliceCorner="8,8" SliceTextureSize="16,16" Anchor="C,T">
-      <Image ID="ExpanderIcon" Anchor="R,T" Offset="0,0" Size="22,22"	Texture="Controls_ExpandButton" />
+    <Grid ID="Category" Size="400,auto" Texture="Controls_ItemContainer" InnerPadding="6,6" SliceCorner="8,8" SliceTextureSize="16,16" Anchor="C,T">
+      <Image ID="ExpanderIcon" Anchor="R,T" Offset="0,0" Size="22,22"	Texture="Controls_ExpandButton" TextureOffset="0,22" />
       <GridButton ID="CategoryName" Style="CityPanelSubPanelTitle" Size="parent,22" Anchor="C,T"/>
       <Stack ID="Icons" StackGrowth="Down" Size="auto,auto" Offset="0,24" Anchor="C,T" Padding="4">
         <Box Size="parent,1" Color="46,70,95,255" />

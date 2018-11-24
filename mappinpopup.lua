@@ -239,7 +239,7 @@ function RequestMapPin(hexX :number, hexY :number)
 		Controls.WindowStack:ReprocessAnchoring();
 		Controls.WindowContainer:ReprocessAnchoring();
 
-		UIManager:QueuePopup( ContextPtr, PopupPriority.Current);
+		UIManager:QueuePopup(ContextPtr, PopupPriority.Current);
 		Controls.PopupAlphaIn:SetToBeginning();
 		Controls.PopupAlphaIn:Play();
 		Controls.PopupSlideIn:SetToBeginning();
@@ -357,6 +357,7 @@ function OnDelete()
 end
 
 function OnCancel()
+  Controls.PinName:GetText()
 	UIManager:DequeuePopup( ContextPtr );
 end
 ----------------------------------------------------------------  
@@ -396,16 +397,17 @@ function MakeCategoryUI(name:string, control:table, showSetting:table)
   ContextPtr:BuildInstanceForControl("IconCategoryInstance", controlTable, control);
   controlTable.CategoryName:LocalizeAndSetText(name);
 
-  function expandHandler(value)
-    controlTable.Icons:SetHide(not value);
-    controlTable.ExpanderIcon:SetTextureOffsetVal(0, value and controlTable.ExpanderIcon:GetSizeY() or 0);
-  end
-  showSetting:AddChangedHandler(expandHandler);
-  expandHandler(showSetting.Value);
+  showSetting:AddChangedHandler(
+    function(value)
+      controlTable.Category:SetHide(not value);
+    end);
+  controlTable.Category:SetHide(not showSetting.Value);
 
   controlTable.CategoryName:RegisterCallback(Mouse.eLClick, 
     function()
-      showSetting:Change(not showSetting.Value);
+      local value = controlTable.Icons:IsHidden();
+      controlTable.Icons:SetHide(not value);
+      controlTable.ExpanderIcon:SetTextureOffsetVal(0, value and controlTable.ExpanderIcon:GetSizeY() or 0);
     end);
   
   return controlTable;
@@ -415,8 +417,14 @@ end
 --	Keyboard INPUT Handler
 -- ===========================================================================
 function KeyHandler( key:number )
-	if (key == Keys.VK_ESCAPE) then OnCancel(); return true; end
-  if (key == Keys.VK_RETURN) then OnOk(); return true; end
+	if (key == Keys.VK_ESCAPE) then 
+    OnCancel(); 
+    return true; 
+  end
+  if (key == Keys.VK_RETURN) then 
+    OnOk(); 
+    return true; 
+  end
 	return false;
 end
 -- ===========================================================================

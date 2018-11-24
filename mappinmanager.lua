@@ -6,6 +6,8 @@
 include( "InstanceManager" );
 include( "SupportFunctions" );
 include( "MapTacks" );
+include( "ModSetting" );
+include( "mod_settings_key_binding_helper");
 
 
 -- ===========================================================================
@@ -97,7 +99,7 @@ MapPinFlag = hmake MapPinFlagMeta {};
 -- Link its __index to itself
 MapPinFlag.__index = MapPinFlag;
 
-local addPinKeyBinding = ModSettings.KeyBinding:new(ModSettings.KeyBinding.MakeValue(Keys.D, {CTRL=true}), 
+local addPinKeyBinding = ModSettings.KeyBinding:new(ModSettings.KeyBinding.MakeValue(Keys.E, {Ctrl=true}), 
   "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING", "LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING_TOOLTIP");
 
 -- ===========================================================================
@@ -226,7 +228,9 @@ function MapPinFlag.SetInteractivity( self : MapPinFlag )
     self.m_Instance.NormalButton:SetVoid1( flagPlayerID );
     self.m_Instance.NormalButton:SetVoid2( pinID );
     self.m_Instance.NormalButton:RegisterCallback( Mouse.eLClick, OnMapPinFlagLeftClick );
-	self.m_Instance.NormalButton:RegisterCallback( Mouse.eRClick, OnMapPinFlagRightClick );
+    self.m_Instance.NameContainer:RegisterCallback( Mouse.eLClick, OnMapPinFlagLeftClick );
+    self.m_Instance.NormalButton:RegisterCallback( Mouse.eRClick, OnMapPinFlagRightClick );
+    --self.m_Instance.NameContainer:RegisterCallback( Mouse.eRClick, OnMapPinFlagRightClick );
 end
 
 ------------------------------------------------------------------
@@ -688,7 +692,7 @@ end
 
 function OnInput(input:table)
   if UI.GetInterfaceMode() == InterfaceModeTypes.SELECTION then
-    if addPinKeyBinding:MatchesInput(input) then
+    if KeyBindingHelper.InputMatches(addPinKeyBinding.Value, input) then
       local plotId = UI.GetCursorPlotID();
       if (Map.IsPlot(plotId)) then
         local plot = Map.GetPlotByIndex(plotId);
