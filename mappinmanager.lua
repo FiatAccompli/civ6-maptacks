@@ -6,7 +6,7 @@
 include( "InstanceManager" );
 include( "SupportFunctions" );
 include( "MapTacks" );
-include( "ModSetting" );
+include( "mod_settings" );
 include( "mod_settings_key_binding_helper");
 
 

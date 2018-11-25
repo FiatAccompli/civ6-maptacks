@@ -2,7 +2,7 @@
 -- MapTacks
 -- utility functions
 
-include ("ModSettings")
+include ("mod_settings")
 
 local g_debugLeader = nil;
 -- g_debugLeader = GameInfo.Leaders.LEADER_BARBAROSSA

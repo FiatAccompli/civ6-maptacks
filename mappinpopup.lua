@@ -6,7 +6,7 @@
 include( "PlayerTargetLogic" );
 include( "ToolTipHelper" );
 include( "MapTacks" );
-include( "ModSettings" );
+include( "mod_settings" );
 
 ----------------------------------------------------------------  
 -- Globals
