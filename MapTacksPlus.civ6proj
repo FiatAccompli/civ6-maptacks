@@ -55,9 +55,9 @@
     <Content Include="map_tacks_map_pin_frame.dds">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="modinfo_fixer.xml">
+    <None Include="modinfo_fixer.xml">
       <SubType>Content</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildLocalExtensionPath)Civ6.targets" />
 </Project>
