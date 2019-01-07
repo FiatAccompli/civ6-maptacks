@@ -58,6 +58,9 @@
     <Content Include="map_tacks_map_pin_frame.dds">
       <SubType>Content</SubType>
     </Content>
+    <None Include="README.md">
+      <SubType>Content</SubType>
+    </None>
     <None Include="modinfo_fixer.xml">
       <SubType>Content</SubType>
     </None>
