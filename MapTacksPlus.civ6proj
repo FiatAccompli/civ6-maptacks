@@ -20,6 +20,9 @@
     <ModProperties>
       <CustomProperties />
     </ModProperties>
+    <AssociationData><![CDATA[<Associations>
+  <Dependency type="Mod" title="Mod Settings Manager" id="1cb1beaf-0428-4aad-b11d-e3168429c071" />
+</Associations>]]></AssociationData>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Default' ">
     <OutputPath>.</OutputPath>

@@ -692,7 +692,7 @@ end
 
 function OnInput(input:table)
   if UI.GetInterfaceMode() == InterfaceModeTypes.SELECTION then
-    if KeyBindingHelper.InputMatches(addPinKeyBinding.Value, input) then
+    if KeyBindingHelper.InputMatches(addPinKeyBinding(), input) then
       local plotId = UI.GetCursorPlotID();
       if (Map.IsPlot(plotId)) then
         local plot = Map.GetPlotByIndex(plotId);
