@@ -3,13 +3,15 @@
 * Adds new map tack icons.
 * Enhances list interface and world view tacks.
 * Fixes bugs and styling.
+* Adds quick access feature (keybinding and right-click to delete)
 
 Based on the original Map Tacks mod by Bradd Szonye.
 
-### Installation
-To use this mod you also need to have [Settings Manager](https://github.com/FiatAccompli/Civ6Mods/tree/master/SettingsManager) ([Steam workshop version](https://steamcommunity.com/sharedfiles/filedetails/?id=1564628360)).
-  * STEAM_LINK
-  * LOCAL_DOWNLOAD_LINK
+### Installation 
+ * [Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1566059738) 
+ * [Manual install](https://github.com/FiatAccompli/Civ6Mods/releases)
+
+You also need to install [Settings Manager](https://github.com/FiatAccompli/Civ6Mods/tree/master/SettingsManager) ([Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1564628360)).
 
 ## Features
 
@@ -68,4 +70,4 @@ progress or disable it without breaking your game.  In general it should overrid
 map pin features in other UI mods, but as with any civ 6 mods, if multiple active mods 
 are touching the same files you're asking for trouble.  Map Tacks Plus is compatible
 with Unique District Icons and uses the unique icons for districts as well as mods that 
-add new civilizations/districts.
+add new civilizations/districts/units.
