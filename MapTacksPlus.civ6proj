@@ -7,7 +7,7 @@
     <ProjectGuid>a9baa681-1b67-473d-9659-2f33cec182fe</ProjectGuid>
     <ModVersion>100</ModVersion>
     <Teaser>LOC_MAP_TACKS_TEASER</Teaser>
-    <Description>LOC_MAP_TACKS_TEASER</Description>
+    <Description>LOC_MAP_TACKS_DESCRIPTION</Description>
     <Authors>FiatAccompli</Authors>
     <SpecialThanks>Adapted from Map Tacks mod by Bradd Szonye.</SpecialThanks>
     <AffectsSavedGames>false</AffectsSavedGames>

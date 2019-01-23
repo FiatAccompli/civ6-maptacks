@@ -2,59 +2,54 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
   <xsl:strip-space elements="*"/>
-  
+
+  <xsl:include href="../modinfo_fixer_base.xml"/>
+
   <xsl:template match="/Mod/Properties">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
     <LocalizedText>
-      <Text id="LOC_MAP_TACKS_MOD_NAME">
-        <en_US>Map Tacks +</en_US>
-        <de_DE>Map Tacks +</de_DE>
-        <es_ES>Map Tacks +</es_ES>
-        <fr_FR>Map Tacks +</fr_FR>
-        <it_IT>Map Tacks +</it_IT>
-        <pl_PL>Map Tacks +</pl_PL>
-        <pt_BR>Map Tacks +</pt_BR>
-        <ru_RU>Map Tacks +</ru_RU>
-        <ja_JP>Map Tacks +</ja_JP>
-        <ko_KR>Map Tacks + </ko_KR>
-        <zh_Hans_CN>Map Tack +</zh_Hans_CN>
-        <zh_Hant_HK>Map Tacks +</zh_Hant_HK>
-      </Text>
-      <Text id="LOC_MAP_TACKS_TEASER">
-        <en_US>Improve the user interface for map pins.</en_US>
-        <de_DE>Verbessere die Benutzerschnittstelle für Landkartennadeln.</de_DE>
-        <es_ES>Mejore la interfaz de usuario para los marcadores del mapa.</es_ES>
-        <fr_FR>Améliorer l'interface utilisateur pour les marqueurs.</fr_FR>
-        <it_IT>Migliora l'interfaccia utente per i spilli mappa.</it_IT>
-        <pl_PL>Ulepsz interfejs użytkownika dla znaczniki na mapie.</pl_PL>
-        <pt_BR>Melhore a interface do usuário para os marcadores de mapa.</pt_BR>
-        <ru_RU>Улучшите интерфейс пользователя для отметки на карте.</ru_RU>
+      <xsl:call-template name="GenerateText">
+        <xsl:with-param name="identifier">LOC_MAP_TACKS_MOD_NAME</xsl:with-param>
+        <xsl:with-param name="is_mod_name" select="true()"/>
+        <xsl:with-param name="base">Map Tacks +</xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name="GenerateText">
+        <xsl:with-param name="identifier">LOC_MAP_TACKS_TEASER</xsl:with-param>
+        <xsl:with-param name="base">Improve the user interface for map pins.</xsl:with-param>
+        <xsl:with-param name="de_DE">Verbessere die Benutzerschnittstelle für Landkartennadeln.</xsl:with-param>
+        <xsl:with-param name="es_ES">Mejore la interfaz de usuario para los marcadores del mapa.</xsl:with-param>
+        <xsl:with-param name="fr_FR">Améliorer l'interface utilisateur pour les marqueurs.</xsl:with-param>
+        <xsl:with-param name="it_IT">Migliora l'interfaccia utente per i spilli mappa.</xsl:with-param>
+        <xsl:with-param name="pl_PL">Ulepsz interfejs użytkownika dla znaczniki na mapie.</xsl:with-param>
+        <xsl:with-param name="pt_BR">Melhore a interface do usuário para os marcadores de mapa.</xsl:with-param>
+        <xsl:with-param name="ru_RU">Улучшите интерфейс пользователя для отметки на карте.</xsl:with-param>
         <!-- borrow the in-game localization for map pins -->
-        <ja_JP>LOC_HUD_MAP_PIN_LIST</ja_JP>
-        <ko_KR>LOC_HUD_MAP_PIN_LIST</ko_KR>
-        <zh_Hans_CN>LOC_HUD_MAP_PIN_LIST</zh_Hans_CN>
-        <zh_Hant_HK>LOC_HUD_MAP_PIN_LIST</zh_Hant_HK>
-      </Text>
+        <xsl:with-param name="ja_JP">LOC_HUD_MAP_PIN_LIST</xsl:with-param>
+        <xsl:with-param name="ko_KR">LOC_HUD_MAP_PIN_LIST</xsl:with-param>
+        <xsl:with-param name="zh_Hans_CN">LOC_HUD_MAP_PIN_LIST"</xsl:with-param>
+        <xsl:with-param name="zh_Hant_HK">LOC_HUD_MAP_PIN_LIST</xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name="GenerateText">
+        <xsl:with-param name="identifier">LOC_MAP_TACKS_DESCRIPTION</xsl:with-param>
+        <xsl:with-param name="base">Adds numerous new icons for map tacks.  All nicely categorized and categories can be hidden if you don't want them.
+* Districts, customized with civilization unique districts
+* Improvements, including unique &amp; bonus improvements from civilization abilities, city states, and governors.
+* Unit actions like harvesting, repair, archaeology, and espionage
+* Great people
+* Wonders
+* Units
+* Governors
+* Random other icons
+
+Additonal mod functionality
+* Tack list sorted alphabetically (followed by non-labeled tacks)
+* Keybinding for adding/editing a map tack (Alt+F by default).
+* Right-click to delete a tack (works on both the world-view tack and in tack list).
+* "Signposting" of tack text so it's easier to read</xsl:with-param>
+      </xsl:call-template>
     </LocalizedText>
   </xsl:template>
-
-  <!-- Inserted by the above block, so remove it if it's already there (i.e. this transform is applied twice). -->
-  <xsl:template match="/Mod/LocalizedText"/>
-
-  <!-- Modbuddy writes priority (lowercase) attribute, but the game looks for Priority (uppercase).  
-       Because I guess even the most cursory testing is unnecessary for Firaxis. -->
-  <xsl:template match="@priority">
-    <xsl:attribute name="Priority">
-      <xsl:value-of select="."/>
-    </xsl:attribute>
-  </xsl:template>
-
-  <!--Identity template, provides default behavior that copies all content into the output -->
-  <xsl:template match="@*|node()">
-    <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
-    </xsl:copy>
-  </xsl:template>
+  
 </xsl:stylesheet>
