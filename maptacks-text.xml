@@ -144,14 +144,8 @@
     <Row Language="en_US" Tag="LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING">
       <Text>Add pin</Text>
     </Row>
-    <Row Language="en_US" Tag="LOC_MAP_TACKS_REMOVE_PIN_KEYBIND_SETTING">
-      <Text>Remove pin</Text>
-    </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_ADD_PIN_KEYBIND_SETTING_TOOLTIP">
-      <Text>Key binding to add/edit a map pin in world view mode.</Text>
-    </Row>
-    <Row Language="en_US" Tag="LOC_MAP_TACKS_REMOVE_PIN_KEYBIND_SETTING_TOOLTIP">
-      <Text>Key binding to remove a map pin in world view mode.</Text>
+      <Text>Key binding to add/edit a map pin in world view mode.  (It is not recommended to bind this with a shift/ctrl/alt modifier as doing so corrupts the game's internally cached keyboard state and you'll need to press and release the shift/ctrl/alt modifier key after exiting the map pin popup to restore working order to the game's native hotkeys.)</Text>
     </Row>
 
   </LocalizedText>

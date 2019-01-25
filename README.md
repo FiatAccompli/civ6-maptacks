@@ -36,7 +36,7 @@ from civs you have met, from all civs in game, or from all civs (in-game or not)
 ![Map Tacks editor popup](Documentation/MapTacksEditor.jpg)
 
 ### Usability improvements
-* Keybinding for adding/editing a map tack (ctrl+E by default).
+* Keybinding for adding/editing a map tack (U by default).
 * Right-click to delete a tack (works on both the world-view tack and in tack list).
 
 All new icons have tooltips, with game effects for districts and improvements.
