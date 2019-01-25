@@ -45,7 +45,7 @@
 
 Additonal mod functionality
 * Tack list sorted alphabetically (followed by non-labeled tacks)
-* Keybinding for adding/editing a map tack (Alt+F by default).
+* Keybinding for adding/editing a map tack (Ctrl+E by default).
 * Right-click to delete a tack (works on both the world-view tack and in tack list).
 * "Signposting" of tack text so it's easier to read</xsl:with-param>
       </xsl:call-template>

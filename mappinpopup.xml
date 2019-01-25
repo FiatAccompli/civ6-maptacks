@@ -10,20 +10,15 @@
               <Container                 Size="auto,auto" Anchor="C,T" Offset="0,12">
                 <Label  ID="TitleText"   Style="WindowHeader"        Anchor="C,C" String="{LOC_MAP_PIN_POPUP_TITLE:upper}" />
               </Container>
-              <Container Size="auto,auto" Anchor="C,T">
-                <Stack		ID="WindowContentsStack"  Anchor="C,C" StackGrowth="Bottom" Padding="12">
+              <Container Size="auto,auto" Anchor="L,T" InnerPadding="5,2">
+                <Stack		ID="WindowContentsStack"  Anchor="L,T" StackGrowth="Bottom" Padding="12" >
                   <!-- Name -->
                   <Grid ID="PinFrame" Style="EditTextButton" Anchor="C,T" Size="310,26">
                     <EditBox ID="PinName" Style="EditTextArea" Size="parent-34,22" Anchor="R,C" Offset="4,0" MaxLength="20" EditMode="0" KeepFocus="1"/>
                   </Grid>
                   <!-- Icons -->
-                  <Container Size="auto, auto">
-                    <Stack StackGrowth="Right" Size="auto,auto" Padding="20" Anchor="C,T">
-                      <Stack ID="IconCategoriesFirstColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
-                      <Stack ID="IconCategoriesSecondColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
-                      <Stack ID="IconCategoriesThirdColumn" StackGrowth="Down" Size="400,auto" Padding="10" Anchor="C,T"/>
-                    </Stack>
-                  </Container>
+                  <Stack ID="CategoriesStack" StackGrowth="Down" WrapWidth="620" WrapGrowth="Right" Padding="15" Anchor="L,T"/>
+
                   <!-- Visible to. -->
                   <Container ID="VisibilityContainer" Anchor="C,T" Size="1,26" Hidden="1">
                     <PullDown ID="VisibilityPull" Anchor="C,T" Size="150,26" Style="WBPullDown"/>
@@ -47,7 +42,7 @@
   </Box>
 
   <Instance Name="IconCategoryInstance">
-    <Grid ID="Category" Size="400,auto" Texture="Controls_ItemContainer" InnerPadding="6,6" SliceCorner="8,8" SliceTextureSize="16,16" Anchor="C,T">
+    <Grid ID="Category" Size="400,auto" Texture="Controls_ItemContainer" InnerPadding="6,6" SliceCorner="8,8" SliceTextureSize="16,16" Anchor="L,T">
       <Image ID="ExpanderIcon" Anchor="R,T" Offset="0,0" Size="22,22"	Texture="Controls_ExpandButton" TextureOffset="0,22" />
       <GridButton ID="CategoryName" Style="CityPanelSubPanelTitle" Size="parent,22" Anchor="C,T"/>
       <Stack ID="Icons" StackGrowth="Down" Size="auto,auto" Offset="0,24" Anchor="C,T" Padding="4">

@@ -392,16 +392,15 @@ function UpdateAvailableIcons()
   UpdateIconSelection(g_desiredIconName, true);
 end
 
-function MakeCategoryUI(name:string, control:table, showSetting:table)
+function MakeCategoryUI(name:string, showSetting:table)
   local controlTable = {};
-  ContextPtr:BuildInstanceForControl("IconCategoryInstance", controlTable, control);
+  ContextPtr:BuildInstanceForControl("IconCategoryInstance", controlTable, Controls.CategoriesStack);
   controlTable.CategoryName:LocalizeAndSetText(name);
 
   showSetting:AddChangedHandler(
     function(value)
       controlTable.Category:SetHide(not value);
-    end);
-  controlTable.Category:SetHide(not showSetting.Value);
+    end, true);
 
   controlTable.CategoryName:RegisterCallback(Mouse.eLClick, 
     function()
@@ -441,20 +440,20 @@ end
 function Initialize()
 	ContextPtr:SetInputHandler( OnInputHandler, true );
 
-  basicsControl = MakeCategoryUI("LOC_MAP_TACKS_BASICS_CATEGORY", Controls.IconCategoriesFirstColumn, showBasicIcons);
-  districtsControl = MakeCategoryUI("LOC_HUD_DISTRICTS", Controls.IconCategoriesFirstColumn, showDistrictIcons);
-  improvementsControl = MakeCategoryUI("LOC_TECH_FILTER_IMPROVEMENTS", Controls.IconCategoriesSecondColumn, showImprovementIcons);
-  domesticActionsControl = MakeCategoryUI("LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showDomesticActionIcons);
-  internationalActionsControl = MakeCategoryUI("LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showInternationalActionIcons);
-  militaryActionsControl = MakeCategoryUI("LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showMilitaryActionIcons);
-  spyActionsControl = MakeCategoryUI("LOC_MAP_TACKS_SPY_ACTIONS_CATEGORY", Controls.IconCategoriesSecondColumn, showSpyActionIcons);
-  greatPeopleControl = MakeCategoryUI("LOC_PEDIA_GREATPEOPLE_TITLE", Controls.IconCategoriesFirstColumn, showGreatPeopleIcons);
+  basicsControl = MakeCategoryUI("LOC_MAP_TACKS_BASICS_CATEGORY", showBasicIcons);
+  districtsControl = MakeCategoryUI("LOC_HUD_DISTRICTS", showDistrictIcons);
+  greatPeopleControl = MakeCategoryUI("LOC_PEDIA_GREATPEOPLE_TITLE", showGreatPeopleIcons);
   if GameInfo.Governors then
-    governorsControl = MakeCategoryUI("LOC_MAP_TACKS_GOVERNORS_CATEGORY", Controls.IconCategoriesFirstColumn, showGovernorIcons);
+    governorsControl = MakeCategoryUI("LOC_MAP_TACKS_GOVERNORS_CATEGORY", showGovernorIcons);
   end
-  yieldsControl = MakeCategoryUI("LOC_HUD_REPORTS_TAB_YIELDS", Controls.IconCategoriesFirstColumn, showYieldIcons);
-  wondersControl = MakeCategoryUI("LOC_CATEGORY_WONDER_NAME", Controls.IconCategoriesThirdColumn, showWonderIcons);
-  unitsControl = MakeCategoryUI("LOC_TECH_FILTER_UNITS", Controls.IconCategoriesThirdColumn, showUnitIcons);
+  yieldsControl = MakeCategoryUI("LOC_HUD_REPORTS_TAB_YIELDS", showYieldIcons);
+  domesticActionsControl = MakeCategoryUI("LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY", showDomesticActionIcons);
+  improvementsControl = MakeCategoryUI("LOC_TECH_FILTER_IMPROVEMENTS", showImprovementIcons);
+  internationalActionsControl = MakeCategoryUI("LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY", showInternationalActionIcons);
+  militaryActionsControl = MakeCategoryUI("LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY", showMilitaryActionIcons);
+  spyActionsControl = MakeCategoryUI("LOC_MAP_TACKS_SPY_ACTIONS_CATEGORY", showSpyActionIcons);
+  wondersControl = MakeCategoryUI("LOC_CATEGORY_WONDER_NAME", showWonderIcons);
+  unitsControl = MakeCategoryUI("LOC_TECH_FILTER_UNITS", showUnitIcons);
  
 	PopulateIconOptions();
 
