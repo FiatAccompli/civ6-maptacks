@@ -31,6 +31,12 @@ local g_debugLeader = nil;
 -- g_debugLeader = GameInfo.Leaders.LEADER_AMANITORE
 -- g_debugLeader = GameInfo.Leaders.LEADER_JADWIGA
 
+ModSettings.PageHeader(
+  "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", 
+  "LOC_MAP_TACKS_MOD_SETTINGS_TITLE",
+  "LOC_MAP_TACKS_MOD_SETTINGS_DESCRIPTION", 
+  "fiataccompli_logo.dds");
+
 -- ===========================================================================
 -- Build the grid of map pin icon options
 

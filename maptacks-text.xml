@@ -54,6 +54,12 @@
     <Row Language="en_US" Tag="LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY">
       <Text>Map Tacks</Text>
     </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_MOD_SETTINGS_TITLE">
+      <Text>Map Tacks +</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_MOD_SETTINGS_DESCRIPTION">
+      <Text>Adds numerous icons for map tacks and various other improvements to the map tacks interface. Based on the Map Tacks mod by Brad Szonye.</Text>
+    </Row>
     
     <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING">
       <Text>Show basic icons</Text>

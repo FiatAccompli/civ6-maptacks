@@ -1,0 +1,5 @@
+MapTack,MapTacksList,MapTacksEditor,MapTacksWorldView images:
+In-game screenshots
+
+MapTacks image:
+Composed form in-game screenshots.
