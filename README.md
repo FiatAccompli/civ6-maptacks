@@ -11,7 +11,9 @@ Based on the original Map Tacks mod by Bradd Szonye.
 * [Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1566059738) 
 * [Manual install](https://github.com/FiatAccompli/Civ6Mods/releases)
 
-You also need to install [Settings Manager](https://github.com/FiatAccompli/Civ6Mods/tree/master/SettingsManager) ([Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1564628360)).
+You also need to install:
+* [Settings Manager](https://github.com/FiatAccompli/Civ6Mods/tree/master/SettingsManager) ([Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1564628360)).
+* [UI Plugins Framework](https://github.com/FiatAccompli/Civ6Mods/tree/master/UIPluginsFramework) ([Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1632664596)).
 
 ## Features
 
