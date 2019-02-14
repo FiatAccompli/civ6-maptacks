@@ -5,6 +5,7 @@
 
 include( "InstanceManager" );
 include( "SupportFunctions" );
+include( "Colors" );
 include( "MapTacks" );
 include( "mod_settings" );
 include( "mod_settings_key_binding_helper");
@@ -693,11 +694,13 @@ end
 function OnInput(input:table)
   if UI.GetInterfaceMode() == InterfaceModeTypes.SELECTION then
     if KeyBindingHelper.InputMatches(addPinKeyBinding(), input) then
-      local plotId = UI.GetCursorPlotID();
-      if (Map.IsPlot(plotId)) then
-        local plot = Map.GetPlotByIndex(plotId);
-        LuaEvents.MapPinPopup_RequestMapPin(plot:GetX(), plot:GetY());
-      end
+      local listPanel = ContextPtr:LookUpControl("/InGame/MinimapPanel/MapPinListPanel");
+      local minimapButton = ContextPtr:LookUpControl("/InGame/MinimapPanel/MapPinListButton");
+
+      listPanel:SetHide(false);
+      minimapButton:SetSelected(true);
+
+		  UI.SetInterfaceMode(InterfaceModeTypes.PLACE_MAP_PIN);
       return true;
     end
   end

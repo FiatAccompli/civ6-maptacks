@@ -1,4 +1,4 @@
-# Map Tacks Plus 1.0.0 
+# Map Tacks Plus 1.0.1 
 
 * Adds new map tack icons.
 * Enhances list interface and world view tacks.
@@ -73,3 +73,9 @@ map pin features in other UI mods, but as with any civ 6 mods, if multiple activ
 are touching the same files you're asking for trouble.  Map Tacks Plus is compatible
 with Unique District Icons and uses the unique icons for districts as well as mods that 
 add new civilizations/districts/units.
+
+### Version History 
+* 1.0.1 - Updated for Gathering Storm release.  Changed key binding behavior so it is now 
+  push key then select hex with mouse rather than push key to select current hex the mouse
+  is over.  I realize this is slightly less convenient, but it meshes better with another
+  mod I have in the works.

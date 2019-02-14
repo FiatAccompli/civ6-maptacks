@@ -457,7 +457,8 @@ function Initialize()
  
 	PopulateIconOptions();
 
-	PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull);
+  PopulateTargetPull(Controls.VisibilityPull, nil, nil, g_visibilityTargetEntries, g_playerTarget, true, OnVisibilityPull);
+
 	Controls.DeleteButton:RegisterCallback(Mouse.eLClick, OnDelete);
 	Controls.DeleteButton:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	Controls.SendToChatButton:RegisterCallback(Mouse.eLClick, OnSendToChatButton);
