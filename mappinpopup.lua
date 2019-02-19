@@ -42,6 +42,9 @@ local yieldsControl;
 local unitsControl;
 local wondersControl;
 
+local autoNamePins = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_AUTO_NAME_PINS");
+
 local showBasicIcons = ModSettings.Boolean:new(
     true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_BASIC_ICONS_SETTING");
 local showDistrictIcons = ModSettings.Boolean:new(
@@ -171,12 +174,6 @@ function PopulateIconOptions()
   PopulateIconOptionsForCategory(yieldsControl.IconOptionStack, GetYieldIcons());
   PopulateIconOptionsForCategory(unitsControl.IconOptionStack, GetUnitIcons());
   PopulateIconOptionsForCategory(wondersControl.IconOptionStack, GetWonderIcons());
-
-	--Controls.WindowContentsStack:CalculateSize();
-	--Controls.WindowContentsStack:ReprocessAnchoring();
-	--Controls.WindowStack:CalculateSize();
-	--Controls.WindowStack:ReprocessAnchoring();
-	--Controls.WindowContainer:ReprocessAnchoring();
 end
 
 function PopulateIconOptionsForCategory(control, iconData, smallIcons) 
@@ -186,7 +183,7 @@ function PopulateIconOptionsForCategory(control, iconData, smallIcons)
     local iconName = iconData.name;
     ContextPtr:BuildInstanceForControl(smallIcons and "IconOptionInstanceSmall" or "IconOptionInstance", controlTable, control);
     SetMapPinIcon(controlTable.Icon, iconName);
-    controlTable.IconOptionButton:RegisterCallback(Mouse.eLClick, function() OnIconOption(iconName) end);
+    controlTable.IconOptionButton:RegisterCallback(Mouse.eLClick, function() OnIconOption(iconName, iconData.defaultPinName) end);
 
     if iconData.tooltip then
 			local tooltip = ToolTipHelper.GetToolTip(iconData.tooltip, Game.GetLocalPlayer()) or Locale.Lookup(iconData.tooltip);
@@ -201,10 +198,13 @@ function PopulateIconOptionsForCategory(control, iconData, smallIcons)
 end
 
 -- ===========================================================================
-function UpdateIconSelection(iconName, selected)
+function UpdateIconSelection(iconName, defaultPinName, selected)
   local controlTable = g_iconOptionEntries[iconName];
   if controlTable ~= nil then
     controlTable.IconOptionButton:SetSelected(selected);
+  end
+  if selected and defaultPinName and autoNamePins() then
+    Controls.PinName:SetText(Locale.Lookup(defaultPinName));
   end
 end
 
@@ -218,9 +218,9 @@ function RequestMapPin(hexX :number, hexY :number)
 	if(pMapPin ~= nil) then
 		g_editPinID = pMapPin:GetID();
 
-    UpdateIconSelection(g_desiredIconName, false);
+    UpdateIconSelection(g_desiredIconName, nil, false);
 		g_desiredIconName = pMapPin:GetIconName();
-    UpdateIconSelection(g_desiredIconName, true);
+    UpdateIconSelection(g_desiredIconName, nil, true);
 		if GameConfiguration.IsAnyMultiplayer() then
 			MapPinVisibilityToPlayerTarget(pMapPin:GetVisibility(), g_playerTarget);
 			UpdatePlayerTargetPulldown(Controls.VisibilityPull, g_playerTarget);
@@ -233,7 +233,6 @@ function RequestMapPin(hexX :number, hexY :number)
 		Controls.PinName:TakeFocus();
 		
 		ShowHideSendToChatButton();
-
 		Controls.OptionsStack:CalculateSize();
 		Controls.OptionsStack:ReprocessAnchoring();
 		Controls.WindowContentsStack:CalculateSize();
@@ -308,10 +307,10 @@ function ShowHideSendToChatButton()
 end
 
 -- ===========================================================================
-function OnIconOption(iconName :string)
-  UpdateIconSelection(g_desiredIconName, false);
+function OnIconOption(iconName:string, defaultPinName:string)
+  UpdateIconSelection(g_desiredIconName, nil, false);
 	g_desiredIconName = iconName;
-	UpdateIconSelection(g_desiredIconName, true);
+	UpdateIconSelection(g_desiredIconName, defaultPinName, true);
 end
 
 -- ===========================================================================
@@ -392,7 +391,7 @@ end
 
 function UpdateAvailableIcons() 
   PopulateIconOptions();
-  UpdateIconSelection(g_desiredIconName, true);
+  UpdateIconSelection(g_desiredIconName, nil, true);
 end
 
 function MakeCategoryUI(name:string, showSetting:table)

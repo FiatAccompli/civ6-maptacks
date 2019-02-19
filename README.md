@@ -75,6 +75,9 @@ with Unique District Icons and uses the unique icons for districts as well as mo
 add new civilizations/districts/units.
 
 ### Version History 
+* 103 - Added default automatic pin naming based on icon (a few icons do not have 
+  a default pin name because there's no good existing texts in the game and I'm not 
+  interested enough to write new ones.)
 * 102 - Added icons for Gathering Storm environmental effects - volcanoes, flooding, etc.
   Added Gathering Storm spy mission icons.  Increased default height of popup so it looks 
   better in Gathering Storm (with the caveat that on the smallest screen sizes the popup now

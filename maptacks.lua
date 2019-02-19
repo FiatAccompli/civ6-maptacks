@@ -86,7 +86,7 @@ function IconInfoForDistrict(district)
   else 
     tooltip = district.DistrictType;
   end
-  return { name = "ICON_" .. district.DistrictType, tooltip = tooltip };
+  return { name = "ICON_" .. district.DistrictType, tooltip = tooltip, defaultPinName = district.Name };
 end
 
 function GetDistrictIcons() 
@@ -180,7 +180,7 @@ function GetImprovementTraitsFunc()
 end
 
 function MakeUnitOperationIcon(item) 
-  return { name = item.Icon, tooltip = item.Description };
+  return { name = item.Icon, tooltip = item.Description, defaultPinName = item.Description };
 end
 
 function GetImprovementIcons()
@@ -196,7 +196,7 @@ function GetImprovementIcons()
 		-- does this improvement have a valid build unit?
 		local units = item.ValidBuildUnits;
 		if #units ~= 0 then
-			local entry = { name = item.Icon, tooltip = item.ImprovementType };
+			local entry = { name = item.Icon, tooltip = item.ImprovementType, defaultPinName = item.Name};
 			local unit = GameInfo.Units[units[1].UnitType];
 			local trait = item.TraitType or unit.TraitType;
 			if trait then
@@ -266,11 +266,11 @@ function GetDomesticActionIcons()
 end
 
 function MakeDiplomaticActionIcon(item)
-  return { name = "ICON_" .. item.DiplomaticActionType, tooltip = item.Name or item.Description };
+  return { name = "ICON_" .. item.DiplomaticActionType, tooltip = item.Name or item.Description, defaultPinName = item.Name or item.Description };
 end
 
 function MakeNotificationIcon(item, tooltip)
-  return { name = "ICON_" .. item.NotificationType, tooltip = tooltip or item.Message};
+  return { name = "ICON_" .. item.NotificationType, tooltip = tooltip or item.Message, defaultPinName = tooltip or item.Message };
 end
 
 
@@ -281,17 +281,20 @@ function GetInternationalActionIcons()
     {
       name="ICON_NOTIFICATION_DISCOVER_GOODY_HUT",
       tooltip="LOC_IMPROVEMENT_GOODY_HUT_NAME",
+      defaultPinName="LOC_IMPROVEMENT_GOODY_HUT_NAME",
     },
     MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_ALLIANCE),
     MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_DECLARE_FRIENDSHIP),
     { 
       name="ICON_NOTIFICATION_DIPLO_DENUNCIATION_EXPIRED",
-      tooltip="LOC_DIPLOACTION_DENOUNCE_NAME"
+      tooltip="LOC_DIPLOACTION_DENOUNCE_NAME",
+      defaultPinName="LOC_DIPLOACTION_DENOUNCE_NAME"
     },
     --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_GIFT_UNIT),
     {
       name="ICON_NOTIFICATION_DIPLOMACY_SESSION",
-      tooltip="LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_NAME"
+      tooltip="LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_NAME",
+      defaultPinName="LOC_DIPLOACTION_DIPLOMATIC_DELEGATION_NAME",
     },
     MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_GIVE_INFLUENCE_TOKEN),
     MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_DECLARE_WAR, "LOC_DECLARE_WAR_BUTTON"),
@@ -345,7 +348,7 @@ end
 function GetGreatPeopleIcons() 
   local icons = {};
 	for item in GameInfo.GreatPersonClasses() do
-		table.insert(icons, { name = item.ActionIcon, tooltip = item.Name });
+		table.insert(icons, { name = item.ActionIcon, tooltip = item.Name, defaultPinName = item.Name });
 	end
   return icons;
 end
@@ -358,7 +361,7 @@ function GetGovernorIcons()
     -- "_FILL" has a white background
     -- "_SLOT" has a transparent background (would be best to use this, but it is also darkened to a 
     -- point where it's very hard to see the actual governor).
-    table.insert(icons, { name = "ICON_" .. item.GovernorType .. "_FILL", tooltip = item.Description });
+    table.insert(icons, { name = "ICON_" .. item.GovernorType .. "_FILL", tooltip = item.Description, defaultPinName = item.Name });
   end
   return icons;
 end
@@ -425,7 +428,7 @@ function GetUnitIcons()
     if item.CanTrain then
       local trait = item.TraitType;
       if not trait or traitFunc(trait) then
-        table.insert(icons, { name = "ICON_"..item.UnitType, tooltip = item.Name });
+        table.insert(icons, { name = "ICON_"..item.UnitType, tooltip = item.Name, defaultPinName = item.Name });
       end
     end
   end
@@ -438,7 +441,7 @@ function GetWonderIcons()
 
   for item in GameInfo.Buildings() do
     if item.IsWonder then
-      table.insert(icons, { name = "ICON_" .. item.BuildingType, tooltip = item.BuildingType });
+      table.insert(icons, { name = "ICON_" .. item.BuildingType, tooltip = item.BuildingType, defaultPinName = item.Name });
     end
   end
   return icons;

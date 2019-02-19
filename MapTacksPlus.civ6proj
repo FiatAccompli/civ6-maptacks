@@ -5,7 +5,7 @@
     <Name>LOC_MAP_TACKS_MOD_NAME</Name>
     <Guid>d3977be1-c226-4216-a2b8-94121a2894b6</Guid>
     <ProjectGuid>a9baa681-1b67-473d-9659-2f33cec182fe</ProjectGuid>
-    <ModVersion>102</ModVersion>
+    <ModVersion>103</ModVersion>
     <Teaser>LOC_MAP_TACKS_TEASER</Teaser>
     <Description>LOC_MAP_TACKS_DESCRIPTION</Description>
     <Authors>FiatAccompli</Authors>

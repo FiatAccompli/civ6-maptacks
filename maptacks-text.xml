@@ -31,7 +31,11 @@
     <Replace Tag="LOC_MAP_PIN_LIST_REMOTE_PIN_TOOLTIP" Language="en_US">
       <Text>Left click to find the tack on the map.</Text>
     </Replace>
-    
+
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_AUTO_NAME_PINS">
+      <Text>Automatically name pins</Text>
+    </Row>
+
     <Row Language="en_US" Tag="LOC_MAP_TACKS_BASICS_CATEGORY">
       <Text>Basic</Text>
     </Row>
