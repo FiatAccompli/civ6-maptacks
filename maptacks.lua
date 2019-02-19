@@ -224,10 +224,23 @@ function GetImprovementIcons()
   for _, v in ipairs(governorIcons) do table.insert(icons, v); end
   for _, v in ipairs(minorCivIcons) do table.insert(icons, v); end
   for _, v in ipairs(engineerIcons) do table.insert(icons, v); end
-  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST));
-  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE));
-  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE));
-  table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_IMPROVEMENT));
+  return icons;
+end
+
+function GetEnvironmentIcons()
+  local icons = {
+    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_DISCOVER_RESOURCE, "LOC_RESOURCE_NAME"),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_PLANT_FOREST),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_REMOVE_FEATURE),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_HARVEST_RESOURCE),
+    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_BUILD_IMPROVEMENT)
+  };
+  if GameInfo.Units_XP2 then
+    table.insert(icons, { name= "ICON_ENVIRONMENTAL_EFFECTS_VOLCANO", tooltip = "LOC_VOLCANO_WARNING_ICON_TOOLTIP" });
+    table.insert(icons, { name= "ICON_ENVIRONMENTAL_EFFECTS_FLOODED", tooltip = "LOC_FLOOD_WARNING_ICON_TOOLTIP" });
+    table.insert(icons, { name= "ICON_ENVIRONMENTAL_EFFECTS_COASTAL_LOWLAND_1M", tooltip = "LOC_COASTAL_LOWLAND_1M_DESCRIPTION" });
+    table.insert(icons, { name= "ICON_NOTIFICATION_NUCLEAR_ACCIDENT_SEV0", tooltip = "LOC_RANDOM_EVENT_NUCLEAR_ACCIDENT_MAJOR_NAME" });
+  end
   return icons;
 end
 
@@ -292,32 +305,16 @@ function GetInternationalActionIcons()
     MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_OPEN_BORDERS),
     --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_REQUEST_ASSISTANCE),
     --MakeDiplomaticActionIcon(GameInfo.DiplomaticActions.DIPLOACTION_THIRD_PARTY_WAR),
-    MakeNotificationIcon(GameInfo.Notifications.NOTIFICATION_DISCOVER_RESOURCE, "LOC_RESOURCE_NAME"),
     --MakeUnitOperationIcon(GameInfo.UnitCommands.UNITCOMMAND_GIFT),
   };
 end
 
-function GetSpyActionIcons() 
-  local icons = {
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_TRAVEL_NEW_CITY),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_DISRUPT_ROCKETRY),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_GAIN_SOURCES),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_GREAT_WORK_HEIST),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_LISTENING_POST),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_RECRUIT_PARTISANS),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SABOTAGE_PRODUCTION),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_SIPHON_FUNDS),
-    MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_STEAL_TECH_BOOST),
-  };
-  -- New operations in Rise and Fall.
-  if (GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL) then 
-    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FABRICATE_SCANDAL));
-  end
-  if (GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST) then 
-    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_FOMENT_UNREST));
-  end
-  if (GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR) then 
-    table.insert(icons, MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_NEUTRALIZE_GOVERNOR));
+function GetSpyActionIcons()
+  local icons = { MakeUnitOperationIcon(GameInfo.UnitOperations.UNITOPERATION_SPY_TRAVEL_NEW_CITY) };
+  for op in GameInfo.UnitOperations() do 
+    if op.CategoryInUI == 'OFFENSIVESPY' then
+      table.insert(icons, MakeUnitOperationIcon(op));
+    end
   end
   return icons;
 end 

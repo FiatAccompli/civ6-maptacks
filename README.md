@@ -75,7 +75,11 @@ with Unique District Icons and uses the unique icons for districts as well as mo
 add new civilizations/districts/units.
 
 ### Version History 
-* 1.0.1 - Updated for Gathering Storm release.  Changed key binding behavior so it is now 
+* 102 - Added icons for Gathering Storm environmental effects - volcanoes, flooding, etc.
+  Added Gathering Storm spy mission icons.  Increased default height of popup so it looks 
+  better in Gathering Storm (with the caveat that on the smallest screen sizes the popup now
+  slightly exceeds the screen size which looks a bit funny).
+* 101 - Updated for Gathering Storm release.  Changed key binding behavior so it is now 
   push key then select hex with mouse rather than push key to select current hex the mouse
   is over.  I realize this is slightly less convenient, but it meshes better with another
   mod I have in the works.

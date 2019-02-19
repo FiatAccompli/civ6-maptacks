@@ -48,6 +48,8 @@ local showDistrictIcons = ModSettings.Boolean:new(
     true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_DISTRICT_ICONS_SETTING");
 local showImprovementIcons = ModSettings.Boolean:new(
     true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY","LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING");
+local showEnvironmentIcons = ModSettings.Boolean:new(
+    true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY","LOC_MAP_TACKS_SHOW_ENVIRONMENT_ICONS_SETTING");
 local showDomesticActionIcons = ModSettings.Boolean:new(
     true, "LOC_MAP_TACKS_MOD_SETTINGS_CATEGORY", "LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING");
 local showInternationalActionIcons = ModSettings.Boolean:new(
@@ -157,6 +159,7 @@ function PopulateIconOptions()
   PopulateIconOptionsForCategory(basicsControl.IconOptionStack, GetStockIcons(), true);
   PopulateIconOptionsForCategory(districtsControl.IconOptionStack, GetDistrictIcons());
   PopulateIconOptionsForCategory(improvementsControl.IconOptionStack, GetImprovementIcons());
+  PopulateIconOptionsForCategory(environmentControl.IconOptionStack, GetEnvironmentIcons());
   PopulateIconOptionsForCategory(domesticActionsControl.IconOptionStack, GetDomesticActionIcons());
   PopulateIconOptionsForCategory(internationalActionsControl.IconOptionStack, GetInternationalActionIcons());
   PopulateIconOptionsForCategory(militaryActionsControl.IconOptionStack, GetMilitaryActionIcons());
@@ -449,6 +452,7 @@ function Initialize()
   yieldsControl = MakeCategoryUI("LOC_HUD_REPORTS_TAB_YIELDS", showYieldIcons);
   domesticActionsControl = MakeCategoryUI("LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY", showDomesticActionIcons);
   improvementsControl = MakeCategoryUI("LOC_TECH_FILTER_IMPROVEMENTS", showImprovementIcons);
+  environmentControl = MakeCategoryUI("LOC_MAP_TACKS_ENVIRONMENT_CATEGORY", showEnvironmentIcons);
   internationalActionsControl = MakeCategoryUI("LOC_MAP_TACKS_INTERNATIONAL_ACTIONS_CATEGORY", showInternationalActionIcons);
   militaryActionsControl = MakeCategoryUI("LOC_MAP_TACKS_MILITARY_ACTIONS_CATEGORY", showMilitaryActionIcons);
   spyActionsControl = MakeCategoryUI("LOC_MAP_TACKS_SPY_ACTIONS_CATEGORY", showSpyActionIcons);

@@ -35,6 +35,9 @@
     <Row Language="en_US" Tag="LOC_MAP_TACKS_BASICS_CATEGORY">
       <Text>Basic</Text>
     </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_ENVIRONMENT_CATEGORY">
+      <Text>Environment</Text>
+    </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_DOMESTIC_ACTIONS_CATEGORY">
       <Text>Domestic Actions</Text>
     </Row>
@@ -69,6 +72,9 @@
     </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_IMPROVEMENT_ICONS_SETTING">
       <Text>Show improvement icons</Text>
+    </Row>
+    <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_ENVIRONMENT_ICONS_SETTING">
+      <Text>Show environment icons</Text>
     </Row>
     <Row Language="en_US" Tag="LOC_MAP_TACKS_SHOW_DOMESTIC_ACTION_ICONS_SETTING">
       <Text>Show domestic action icons</Text>
